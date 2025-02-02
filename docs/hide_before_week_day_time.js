@@ -8,7 +8,7 @@ Date.prototype.getWeek = function () {
 hideBeforeWeekDayTime = function(document, week, day, time) {
    var date = new Date();
    var dayInt = {'mon': 1, 'tue':2, 'wed':3, 'thu':4, 'fri':5, 'sat':6, 'sun':0};
-   var year = 2024;
+   var year = 2025;
    //console.log(date.getFullYear() + " " + year + ", " + date.getWeek() + " " + week + ", " + date.getDay() + " " + dayInt[day] + " " + date.getHours())
    if (hideSolutions &&
        (date.getFullYear() < year ||
