@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Integrative Structural Biology - ML in structural biology</title>
+
+    <meta name="description" content="Slides for the Integrative Structural Biology course">
+    <meta name="author" content="Wouter Boomsma">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/theme/white-helv.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js-4.3.1/plugin/highlight/googlecode.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      	var link = document.createElement( 'link' );
+      	link.rel = 'stylesheet';
+      	link.type = 'text/css';
+      	link.href = '../reveal.js-4.3.1/css/print/pdf.css';
+      	document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <script>
+      <!-- Map keeping track of per-slide functions -->
+      var slideIdToFunctions = {}
+    </script>
+
+    <style>
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal a {
+        color:DarkSlateBlue;
+      }
+      .reveal dt {
+        margin-top:0.5em;
+        font-style:italic;
+      }
+      .reveal section img {
+        border: none;
+        box-shadow: none;
+      }      
+      .reveal section img.border {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal a img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal img.centered {
+        margin: 0 auto;
+        display:block;
+      }
+      .reveal img.noborder {
+        border: none;
+        box-shadow: none;
+      }      
+			.reveal section div.container{
+				display: flex;
+			}
+			.reveal section div.container div{
+				flex: 1;
+			}
+			.reveal dt.spaced {
+				margin-top:0.5em;
+			}
+      .reveal svg {
+        font-size:50%;
+      }
+      .reveal pre {
+        width: 97.5%;
+      }      
+      .reveal code .label {
+        background:#E8E8E8;
+        color:grey;
+        padding:4px;
+        height:1em;
+        position:absolute;
+        right:0px;
+        top:0px;
+      }
+      .reveal .twocols50 {
+        width:47%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols30 {
+        width:27%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols70 {
+        width:67%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols20 {
+        width:17%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols80 {
+        width:77%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols40 {
+        width:37%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols60 {
+        width:57%;
+        float:left;
+        margin:1.5%;
+      }
+
+
+      div.ipython {box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); margin:20px auto; padding:0.2em; width:95%}
+      p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%; font-family: monospace; color: #000000}
+      p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #c1651c}
+      p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #2d961e}
+      p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #000000; }
+      p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace;  color: #318bee}
+      span.s1 {font-variant-ligatures: no-common-ligatures; color: #2d961e}
+      span.s2 {font-variant-ligatures: no-common-ligatures; color: #2fe71a}
+      span.s3 {font-variant-ligatures: no-common-ligatures}
+      span.s4 {font-variant-ligatures: no-common-ligatures; color: #318bee}
+      span.s5 {font-variant-ligatures: no-common-ligatures; color: #000000}
+      span.s6 {font-variant-ligatures: no-common-ligatures; background-color: #aeaeae}
+
+      @keyframes cnnanimation {
+      0%   {left:0%; visibility: visible}
+      5%   {left:85%; top: 0}
+      10%  {left:85%; top: 9%; }
+      15%  {left:0%;  top: 9%; }
+      20%  {left:0%;  top: 18%; }
+      25%  {left:85%; top: 18%; }
+      30%  {left:85%; top: 27%; }
+      35%  {left:0%;  top: 27%; }
+      40%  {left:0%;  top: 36%; }
+      45%  {left:85%; top: 36%; }
+      50%  {left:85%; top: 45%; }
+      55%  {left:0%;  top: 45%; }
+      60%  {left:0%;  top: 54%; }
+      65%  {left:85%; top: 54%; }
+      70%  {left:85%; top: 63%; }
+      75%  {left:0%;  top: 63%; }
+      80%  {left:0%;  top: 72%; }
+      85%  {left:85%;  top: 72%; }
+      100% {left:85%;  top: 72%; visibility: visible}
+    }
+
+    .reveal .slides section.present .animatedfilter1 {
+      animation-name:cnnanimation; animation-duration: 4s; animation-fill-mode: forwards
+    }
+
+    .reveal .slides section.present .animatedfilter2 {
+      animation-name:cnnanimation; animation-duration: 4s; animation-delay: 0s; animation-fill-mode: forwards
+    }
+
+    @keyframes delayedshow {
+      to {
+        visibility: visible;
+      }
+    }
+
+    .reveal .slides section.present .delayedshow1 {
+      animation: 0s linear 3.4s forwards delayedshow;
+    }
+    .reveal .slides section.present .delayedshow2 {
+      animation: 0s linear 3.4s forwards delayedshow;
+    }
+
+
+
+    </style>
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+      
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+        <section>
+          <br/>
+          <h1>Integrative Structural Biology</h1>
+          <h4>Module 13 - Machine Learning in Structural Biology </h4>
+          <div style="text-align:left; font-size:100%; border:1px solid lightgrey; background-color: #fafafa; padding:0.5em; display:inline-block; margin-top:0em; padding-top:0em;padding-right:3em;">
+
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">1. Fundamentals of Machine Learning</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">2. Machine Learning in Structural Biology</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em; margin-left:2em;">Case story: Alphafold2</h4>
+          </div>
+        </section>
+
+        <section>
+          
+          <h3>What is Machine Learning?</h3>
+          <div style="width:100%; text-align:center"><div style="width:80%; text-align:left; display:inline-block"><em>Machine learning (ML) is a field devoted to understanding and building methods that let machines "learn" – that is, methods that leverage data to improve computer performance on some set of tasks. <br><br>Machine learning algorithms build a model based on sample data, known as training data, in order to make predictions or decisions without being explicitly programmed to do so.</em> <br><div style="float:right"><span style="font-size:60%">- Wikipedia, "Machine Learning", May 23, 2023</span></div></div></div>
+
+        </section>
+
+        <section>
+          <h3>Machine Learning: Supervised vs unsupervised</h3>
+
+          <dl>
+            <div style="width:40%; float:right;  text-align:right"><img class="noborder" style="width:80%;" src="../images/supervised_vs_unsupervised.svg" alt=""><br><span style="font-size:40%">Source: https://arxiv.org/abs/1910.05433</span></div>
+            <dt>Supervised learning</dt>
+            <dd>Training data consists of input data and output data</dd>
+            <dt>Unsupervised learning</dt>
+            <dd>Training data consists of input data only</dd>
+          </dl>
+
+        </section>
+
+        <section>
+          <h3>Machine Learning: offline vs online</h3>
+
+          <dl>
+            <dt>Offline learning</dt>
+            <dd>Training data is available in advance</dd>
+            <div style="width:30%; float:right; "><img class="noborder" style="width:100%; margin-top:2.5em" src="../images/reinforcement_learning.png" alt=""><span style="font-size:40%">Source: <a href="https://arxiv.org/abs/2008.05533">https://arxiv.org/abs/2008.05533</a></span></div>
+            <dt>Online learning</dt>
+            <dd>Training data is a stream, rather than a static set. It arrives as we train the model (possibly in response to actions taken).</dd>
+          </dl>
+
+        </section>
+
+        <section>
+          <h3>Data</h3>
+
+          <p>In supervised learning, we learn a model that maps inputs values to output values. </p>          
+
+          <div style="width:40%; float:right;  text-align:right"><img class="noborder" style="width:80%;" src="../images/Codomain2.SVG.svg" alt=""><br><span style="font-size:40%;">Source:&nbsp;https://en.wikipedia.org/wiki/Domain_of_a_function</span></div>
+          <p>We typically call input data \(X\) and output data \(Y\).</p>
+
+          <p>The output values are also sometimes referred to as <em>labels</em>.</p>
+        </section>
+
+
+        <section>
+          <h3>Regression vs classification</h3>
+          
+          <dt>
+            <img class="noborder" style="width:25%;float:right" src="../images/regression.png">
+            <dt>Regression</dt>
+            <dd>Output values are continuous</dd>
+            <div style="clear:both"></div>
+            <img class="noborder" style="width:25%;float:right" src="../images/classification.png">
+            <dt>Classification</dt>
+            <dd>Output values are categories (classes)</dd>
+          </dt>
+          <div style="clear:both;"></div>
+          <div style="width:25%; font-size:40%; float:right">Figures from Greener et al, A guide to Machine Learning for Biologists, 2022</div>
+
+        </section>
+
+        <section>
+          <h3>Parameters vs hyperparameters</h3>
+          
+          <dl>
+            <dt>Parameters</dt>
+            <dd>Values that are learned from the data</dd>
+            <dt>Hyperparameters</dt>
+            <dd>Values that are not learned during the training phase of the model. Related to model selection.</dd>
+          </dl>
+
+        </section>
+
+        <section>
+          <h3>Loss function</h3>
+
+          <div class="container">
+            <div style="flex-grow:2">
+              Specifies how well the model fits the data
+
+              <p>For regression, we typically use mean squared error:</p>
+
+              <span style="font-size:80%">\[L = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2\]</span>
+
+              where <span style="font-size:80%">\(y_i\)</span> is the true value and <span style="font-size:80%">\(\hat{y}_i\)</span> is the predicted value.
+            </div>
+            <div>
+              <img class="noborder" style="width:100%" src="linreg_w_error.svg">
+            </div>
+          </div>
+
+        </section>
+
+        <section>
+          <h3>Training</h3>
+
+          <div style="width:35%; float:right; text-align:right"><img class="noborder" style="width:80%" src="../images/nonconvex3.jpg"></div>
+
+          <p>We can now <em>train</em> the model by finding the parameters that minimize the loss.</p>
+
+          <p>Often, this is done by gradient descent, where we iteratively update the parameters in the direction of the gradient of the loss function.</p>
+
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Supervised models: Two examples</h3>
+
+          <div class="container">
+            <div style="flex-grow:1">
+              <em>Linear regression</em>
+
+              Model: <p style="font-size:80%">\(y = ax + b\)</p>
+
+              <img class="noborder" style="width:60%" src="linreg_w_error.svg">
+
+            </div>
+            <div style="flex-grow:1">
+              <em>k-nearest neighbors</em>
+              <div class="r-stack">
+              <div class="fragment fade-out" data-fragment-index="0">
+                <p>Model: <span style="font-size:80%">\(y = \frac{1}{k} \sum_{i=1}^k y_i\)</span></p>
+                <img class="noborder" style="float:right; width:50%" src="../images/KnnClassification.svg">
+                <p>where <span style="font-size:80%">\(y_i\)</span> is the output value of the <span style="font-size:80%">\(i\)</span>th nearest neighbor.</p>
+              </div>
+              <div class="fragment"  data-fragment-index="0" style="margin-top:1em">
+                <span style="font-size:80%">\(k\)</span> is a hyperparameter, which cannot be optimized from the training data
+                <div class="container" style="width:100%">
+                  <div><img class="noborder" style="width:100%" src="../images/1nearestneighbor.png"></div>
+                  <div><img class="noborder" style="width:100%" src="../images/20nearestneighbor.png"></div>
+                </div>
+
+              </div>
+              </div>
+
+            </div>
+          </div>
+
+          Exercise:
+          <ul>
+            <li>Are these regression or classification methods?</li>
+            <li>What are the parameters and hyperparameters of these two models?</li>
+          </ul>
+
+        </section>
+
+        <section>
+          <h3>Unsupervised models: two examples</h3>
+
+          <div class="container">
+            <div style="flex-grow:1">
+              <em>k-means Clustering</em>
+              <img class="noborder" style="width:90%; position:relative; top:1em;" src="../images/clustering.png">
+            </div>
+            <div style="flex-grow:1">
+              <em>Dimensionality reduction:&nbsp;PCA</em><br>
+              <img class="noborder" style="width:75%" src="../images/pca.png">
+            </div>
+            </div>
+            <div style="width:50%; font-size:40%; float:right">Figures from Greener et al, A guide to Machine Learning for Biologists, 2022</div>
+
+        </section>
+
+        <section style="font-size:85%">
+          <h3>Neural networks</h3>
+
+          Remember linear regression?: <p style="font-size:80%">\[y = ax + b\]</p>
+
+          We can extend this to multiple inputs:
+          <p style="font-size:80%">\[y = w_1 x_1 + w_2 x_2 + \ldots + w_m x_m + b = \sum_{j=1}^{m}w_jx_j + b\]</p>
+
+          <div class="fragment">
+            <img class="noborder" style="width:60%; float:right" src="../images/neuron_1.svg">
+            And visualize it like:
+          </div>
+
+          <aside class="notes">
+            Example: predicting probability of developing diabetes based on weight and height.
+          </aside>          
+
+        </section>
+
+        <section>
+          <h2>A neuron</h2>
+    
+          <p>A neuron calculates a weighted sum of its inputs: </p>
+    
+          <div class="" style="position:absolute; width:100%">
+            <img class="centered fragment fade-out" data-fragment-index="1" style="width:70%" src="../images/neuron_1.svg">
+          </div>
+          <div class="fragment" data-fragment-index="1" >
+            <img class="centered" style="width:70%" src="../images/neuron_2.svg">
+          </div>
+    
+          <p class="fragment" data-fragment-index="1">And passes it through a non-linear <em>activation function</em> \(\sigma\).</p>
+    
+        </section>
+    
+        <section>
+          <h2>A neuron - activation functions</h2>
+    
+          <p>Introduces a non-linearity in the network</p>
+    
+          <img class="centered" style="width:40%" src="../images/activation_functions.png">
+    
+          <!--<p class="fragment">We'll get back to when we use which one.</p>-->
+    
+        </section>    
+
+        <section>
+          <h2>Deep learning: many layers of neurons</h2>
+
+          <img class="centered" style="width:80%" src="../images/neural_network_forward_backward_6.svg">
+
+        </section>
+
+        <section>
+          <h2>Optimizing a neural network</h2>
+    
+          <div style="float:left; width:60%">
+    
+            Remember gradient descent?
+            <ol>
+              <li>Initialize parameters to random solution</li>
+              <li>Repeat: Update parameters: \(w_j \rightarrow w_j - \eta \frac{\partial L(\mathbf{w)}}{w_j}\)</li>
+            </ol>
+          </div>
+          <div style="float:left; width:40%">
+            <img class="noborder center" src="../images/nonconvex3.jpg">
+          </div>
+    
+          <p class="fragment">So we just need a way to calculate \(\frac{\partial L(\mathbf{w)}}{w_j}\), the gradient of our loss with respect to the weights.</p>
+    
+        </section>
+    
+        <section>
+          <h3>Backpropagation</h3>
+
+          <p>The gradient can be calculated using an algorithm called <em>backpropagation</em>, by doing a forward pass followed by a backward pass.</p>
+
+          <div class="" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="1" style="width:100%"  src="../images/neural_network_forward_backward_1.svg">
+          </div>
+          <div class="fragment" data-fragment-index="1" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="2" style="width:100%"  src="../images/neural_network_forward_backward_2.svg">
+          </div>
+          <div class="fragment" data-fragment-index="2" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="3" style="width:100%"  src="../images/neural_network_forward_backward_3.svg">
+          </div>
+          <div class="fragment" data-fragment-index="3" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="4" style="width:100%"  src="../images/neural_network_forward_backward_4.svg">
+          </div>
+          <div class="fragment" data-fragment-index="4" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="5" style="width:100%"  src="../images/neural_network_forward_backward_5.svg">
+          </div>
+          <div class="fragment" data-fragment-index="5" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="6" style="width:100%"  src="../images/neural_network_forward_backward_6.svg">
+          </div>
+          <div class="fragment" data-fragment-index="6" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="7" style="width:100%"  src="../images/neural_network_forward_backward_7.svg">
+          </div>
+          <div class="fragment" data-fragment-index="7" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="8" style="width:100%"  src="../images/neural_network_forward_backward_8.svg">
+          </div>
+          <div class="fragment" data-fragment-index="8" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="9" style="width:100%"  src="../images/neural_network_forward_backward_9.svg">
+          </div>
+          <div class="fragment" data-fragment-index="9" style="position:absolute; width:85%">
+            <img class="centered fragment fade-out" data-fragment-index="10" style="width:100%"  src="../images/neural_network_forward_backward_10.svg">
+          </div>
+          <div class="fragment" data-fragment-index="10" style="width:85%">
+            <img class="centered" style="width:100%"  src="../images/neural_network_forward_backward_11.svg">
+          </div>
+    
+          <!-- <p class="fragment" data-fragment-index="6">Once we have the final <span style="font-size:80%">\(\delta\)</span>, we can calculate the <span style="font-size:80%">\(\delta\)</span> of the preceding layer using <span style="font-size:80%">\(\delta_k = \sigma'(a_k)\sum_l w_{kl}\delta_l\)</span>. <span class="fragment" data-fragment-index="7">Repeat.</span></p> -->
+        </section>
+    
+        <section>
+          <h2>Variations of neural networks</h2>
+
+            <p>Over the years, many variants of neural networks have been developed to address specific types of data</p>
+
+          <ul>
+            <li>Recurrent neural networks</li>
+            <li>Convolutional neural networks</li>
+            <li>Graph neural networks</li>
+            <li>Attention-based neural networks (transformers)</li>
+            <li>Diffusion models</li>
+          </ul>
+
+          <p>We'll very briefly introduce the basic idea behind each</p>
+        </section>
+
+        <section>
+          <h2>Recurrent Neural Networks (RNNs)</h2>
+    
+          <p>How do we deal with sequential data?</p>
+    
+          <p>Idea: model sequence position by position, but let the output of one position affect the prediction at the next position.</p>
+    
+          <img class="centered" style="width:80%" src="../images/RNN-unrolled.png">
+    
+          <div style="width:100%; margin-top:2em; text-align:right; font-size:40%"><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></div>
+    
+        </section>
+    
+        <section>
+          <h2>Convolutional Neural Networks (CNNs)</h2>
+          <img class="noborder center" style="width:100%" src="../images/cnn_schematic.svg">
+    
+          <aside class="notes">
+            <ul>
+              <li>Central: parameter sharing through filters</li>
+              <li>By sliding a filter we get a feature map.</li>
+              <li>By applying multiple filters, we get multiple channels</li>
+              <li>Feature maps gets more and more abstract as we move away for the input</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="filters">
+          <h2>CNNs: filters</h2>
+          <div style="margin-left:10%; top:0px; width:40%; display:inline-block; position:relative; vertical-align:top;">
+            <!--<img id="filter1" class="noborder animatedfilter1" style="width:10%; position:absolute; " src="images/cnn_building_filter1.png">-->
+            <!--<img id="filter2" class="noborder animatedfilter2" style="width:10%; position:absolute; visibility:hidden;"-->
+            <img id="filter1" class="noborder" style="width:10%; position:absolute; " src="../images/cnn_building_filter1.png">
+            <img id="filter2" class="noborder" style="width:10%; position:absolute; visibility:hidden;"         src="../images/cnn_building_filter2.png">
+            <img class="noborder" style="width:100%; " src="../images/cnn_building_example.png">
+          </div>
+          <div style="left:0%; top:0px; width:40%; padding-bottom:0em; display:inline-block; position:relative">
+            <img id="filter1result" class="noborder" style="width:100%; border:1px solid #39a233; visibility:hidden; " src="../images/cnn_building_featuremap1.png">
+            <img id="filter2result" class="noborder" style="width:100%; border:1px solid #fb0006; visibility:hidden; position:relative; left:0em; top:0em; margin-top:0em;" src="../images/cnn_building_featuremap2.png">
+          </div>
+          <!--<div style="left:50%; top:0px; width:40%; display:inline-block; position:relative">-->
+          <!--<img class="noborder" style="width:100%; visibility:hidden; animation: 0s linear 8s forwards delayedshow" src="images/cnn_building_featuremap2.png">-->
+          <!--</div>-->
+    
+          <div class="fragment"></div>
+          <div class="fragment"></div>
+    
+          <div style="width:100%; margin-top:1em; text-align:right; font-size:40%">Images from <a href="https://cs.nyu.edu/~fergus/tutorials/deep_learning_cvpr12/">https://cs.nyu.edu/~fergus/tutorials/deep_learning_cvpr12/</a></div>
+    
+          <aside class="notes">
+            <ul>
+              <li>Generate feature maps by slideing a filter over the image</li>
+              <li>Standard image analysis</li>
+              <li>Only news: we learn the filters</li>
+            </ul>
+          </aside>
+    
+        </section>
+        <script>
+           slideIdToFunctions["filters"] = {
+              'init': function() {
+              },
+              0: function() {
+                 d3.select("#filter1").attr('class', 'noborder animatedfilter1');
+                 d3.select("#filter1result").attr('class', 'noborder  delayedshow1');
+              },
+              1: function() {
+                 d3.select("#filter2").attr('class', 'noborder animatedfilter2');
+                 d3.select("#filter2result").attr('class', 'noborder delayedshow2');
+              },
+           }
+        </script>
+
+        <section>
+          <h2>Graph Neural Networks (GNNs)</h2>
+
+          Graph neural networks employ a similar idea as CNNs, but for graphs rather than images.
+
+          <img class="noborder centered" style="width:80%; position:relative; margin-top:1em" src="../images/cnn_vs_gnn_1.svg" alt="">
+          <img class="noborder centered" style="width:80%" src="../images/cnn_vs_gnn_2.svg" alt="">
+
+          <div style="width:50%; font-size:40%; margin-top:5em; float:right">Figures from <a href="https://distill.pub/2021/understanding-gnns/">https://distill.pub/2021/understanding-gnns/</a></div>
+
+        </section>
+
+        <section style="font-size:80%">
+          <h3>Attention-based networks (e.g. transformers)</h3>
+
+          Introduced as an improvement of recurrent neural networks.
+
+          <div style="width:100%; text-align:center">
+            <div style="width:55%; display:inline-block;" ><img class="noborder centered" style="width:100%" src="../images/attention.png" alt=""><span style="font-size:40%">Source: https://ai.googleblog.com/2017/08/transformer-novel-neural-network.html</span>
+            </div>
+          </div>
+
+          Rather than predicting the next position based on the previous position, we predict based on all previous positions, but with a weight that depends on relevance.
+
+          <div style="width:100%; text-align:center">
+            <div style="width:70%; display:inline-block"><img class="noborder centered" style="width:100%" src="../images/attention_example.svg" alt=""><span style="font-size:40%">Source: https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial6/Transformers_and_MHAttention.html</span></div>
+          </div>
+
+        </section>
+
+        <section style="font-size:70%">
+          <h2>Self-supervised training (language models)</h2> 
+
+          Self-supervised training is a special case of unsupervised learning, where we use the data itself to generate labels.
+
+          <img class="noborder centered" style="width:75%; margin-top:0.5em" src="../images/lm_vs_mlm-min.png">
+          <span style="font-size:50%; float:right">Source: https://lena-voita.github.io/nlp_course/transfer_learning.html</span>
+
+          <p style="margin-top:1em">This is the basic principle behind models such as ChatGPT - and are also increasingly being used for biological sequences.</p>
+
+        </section>
+
+        <section style="font-size:85%">
+          <h2 style="z-index:100; position:absolute;">Diffusion models</h2>
+
+          <img class="noborder centered" style="width:100%; margin-top:1em;;" src="../images/diffusion.png">
+          <img class="noborder centered" style="width:55%;; margin-top:-1em" src="../images/diffusion_schematic.png">
+          <div style="width:60%; font-size:50%; margin-top:0em; float:right">Source: <a href="https://angusturner.github.io/generative_models/2021/06/29/diffusion-probabilistic-models-I.html">https://angusturner.github.io/generative_models/2021/06/29/diffusion-probabilistic-models-I.html</a></div>
+
+          <div style="clear:both;"></div>
+          
+
+          <span style="margin-top:0.5em">Central idea:</span>
+          <ul>
+            <li>Use neural network to learn how to denoise from \(x_t\) to \(x_{t-1}\)</li>
+          </ul>
+
+        </section>
+
+
+        <!-- <section>
+          <h3>How do we assess whether a model works?</h3>
+          <h3>Central hypothesis in Machine Learning</h3>
+
+          <p>Training data is representative of the data we want to predict</p>
+        </section> -->
+
+        <section>
+          <h3>Overfitting and underfitting</h3>
+
+          <p>Depending on the choice of model and hyperparameters, our model might underfit or overfit.</p>
+
+          <div style="width:100%; text-align:center">
+            <div style="width:70%; display:inline-block"><img class="noborder centered" style="width:100%" src="../images/over_under_fit.png" alt=""><span style="font-size:40%; margin-top:1em; float:right">Source: https://www.fastaireference.com/overfitting</span></div>
+          </div>
+<!--           <img class="noborder centered" style="width:75%" src="../images/over_under_fit.png">
+ -->          
+          <p>Q: How do we know when we have an "optimal" fit?</p>
+          <p class="fragment">A: We test our model on a holdout set</p>
+
+        </section>
+
+
+        <section>
+          <h3>Training, validation, and test sets</h3>
+
+          <p>How do we assess how well our model is doing?</p>
+
+          <p>Simple idea: split the data:</p>
+          <img class="noborder centered" style="width:50%" src="../images/train_val_test.png">
+
+          Note: this only works if the test set is representative of the data we want to predict.
+        </section>
+
+        <section>
+          <h2>Sample bias / selection bias</h2>
+    
+          <p>Machine learning methods work under the assumption that training set and test set are sampled from the same distribution.</p>
+    
+          <p>If the sample you train on is not representative of the underlying population, we call this <em>sample bias</em>.</p>
+    
+          <img style="width:70%" class="centered noborder" src="../images/dilbert-sampling.gif">
+        </section>
+
+        <section>
+          <h3>Different notions of "Bias"</h3>
+
+          Note that the word bias is used in different ways in machine learning:
+
+          <dl>
+            <dt>Sample bias</dt>
+            <dd>Training set is not representative of the data we want to predict</dd>
+            <dt>Inductive bias</dt>
+            <dd>Assumptions made by the model</dd>
+            <dt>Bias and variance</dt>
+            <dd>How well does the model fit the data</dd>
+          </dl>
+
+        </section>
+
+        <section>
+          <h2>Bias/variance trade-off</h2>
+    
+          <p>Two central concepts in modeling: bias and variance</p>
+    
+          <img class="centered noborder" style="width:40%" src="../images/bias_variance_tradeoff.png">
+    
+          <p>Bias in this case means the model produces estimates that are systematically wrong</p>
+    
+        </section>
+            
+
+        <section style="text-align:center">
+          <h1>Machine Learning in <br>structural biology</h1>
+        </section>
+
+        <section>
+          <h2>Machine Learning in structural biology</h2>
+
+          <p>Three important examples:</p>
+
+          <ul>
+            <li>Secondary structure prediction</li>
+            <li>Contact prediction</li>
+            <li>3D Structure prediction</li>
+          </ul>
+
+        </section>  
+
+        <section style="height:100%">
+          <h2>Secondary structure prediction</h2>
+  
+          <div style="width:100%; position:absolute;z-index:1" ><img class="noborder center" style="border:1px solid lightgrey;margin-left:0; margin-top:0" src="../images/Holley_cover.png"></div>
+          <div class="fragment" style="width:40%; position:absolute;z-index:10" data-fragment-index="2" ><img class="noborder center" style="border:1px solid lightgrey;margin-left:3em; margin-top:1em" src="../images/Holley_network.png"></div>
+  
+          <aside class="notes">
+            <ul>
+              <li>From single sequence</li>
+              <li>Accuracy around 60%</li>
+            </ul>
+          </aside>
+  
+        </section>
+  
+        <section style="height:100%">
+          <h2>Secondary structure prediction from multiple sequence alignments</h2>
+          <div style="width:100%; position:absolute;">
+            <img class="noborder fragment fade-out center" data-fragment-index="1" style="border:1px solid lightgrey; width:80%; margin-top:1em" src="../images/rost_cover.png">
+          </div>
+          <div class="fragment fade-in" data-fragment-index="1" style="width:100%; position:absolute;">
+            <img class="noborder fragment fade-out center" data-fragment-index="2" style="border:1px solid lightgrey; width:80%; margin-top:1em" src="../images/psipred_cover.png">
+          </div>
+          <div class="fragment fade-in" data-fragment-index="2">
+            <img class="noborder center" style="border:1px solid lightgrey; display:block; margin: 0 auto; width:70%; margin-top:1em" src="../images/psipred_model.png">
+          </div>
+  
+          <aside class="notes">
+            <ul>
+              <li>Rost and Sanders: Fist method to archive above 70% (called "PHD")</li>
+            </ul>
+          </aside>
+  
+  
+        </section>
+  
+        <section style="height:100%">
+          <h2>Contact map prediction</h2>
+  
+          <div style="width:100%; position:absolute;">
+            <img class="noborder fragment fade-out centered" data-fragment-index="0" style="border:1px solid lightgrey; width:100%; margin-top:1em" src="../images/Sanders_cover.png">
+          </div>
+          <div class="fragment fade-in" data-fragment-index="0" style="width:100%; position:absolute;">
+            <img class="noborder fragment fade-out centered" data-fragment-index="1" style="border:1px solid lightgrey; width:100%; margin-top:1em" src="../images/Marks_cover.png">
+          </div>
+          <div class="fragment fade-in" data-fragment-index="1" style="width:100%; position:absolute;">
+            <img class="noborder fragment fade-out centered" data-fragment-index="2" style="border:1px solid lightgrey; width:60%; margin-top:0em" src="../images/Marks_figure2.png">
+            <img class="noborder fragment fade-out centered" data-fragment-index="2" style="border:1px solid lightgrey; width:60%; margin-top:0.2em" src="../images/Marks_figure.png">
+            <p class="fragment fade-out" data-fragment-index="2" style="font-size: 50%; text-align: right">
+              Marks, Hopf, Sanders, Nature biotechnology, 2012
+            </p>
+          </div>
+          <div class="fragment fade-in" data-fragment-index="2" style="width:100%; position:absolute;">
+            <img class="noborder fragment fade-out centered" data-fragment-index="3" style="border:1px solid lightgrey; width:100%; margin-top:1em" src="../images/contact_map_prediction_cover.png">
+          </div>
+  
+          <div class="fragment fade-in" data-fragment-index="3" style="width:60%; margin: 0 auto; padding: 1cm; background:white;border:1px solid lightgrey">
+            <img class="noborder center" style="display:block; width:100%; margin-top:1em" src="../images/contact_map_prediction_figure.png">
+          </div>
+  
+          <aside class="notes">
+            Contact maps + FF make us able to predict 3D structure, and this is a major step torward protein structure prediction.
+          </aside>
+  
+        </section>
+  
+        <section>
+          <h2>3D structure prediction</h2>
+          <div class="" data-fragment-index="0" style="width:100%; position:absolute;">
+            <img class="center noborder" style="border:1px solid lightgrey; width:60%;" src="../images/rosetta_cover.png">
+          </div>
+          <div class="fragment" data-fragment-index="1" style="width:100%; position:absolute;">
+            <img class="center noborder" style="border:1px solid lightgrey; width:60%;margin-left:2em; margin-top:2em" src="../images/nemo_cover.png">
+          </div>
+          <div class="fragment fade-in" data-fragment-index="2" style="width:100%; position:absolute;">
+            <img class="noborder center" style="border:1px solid lightgrey; width:80%;margin-left:4em; margin-top:4em" src="../images/rgn_cover.png">
+          </div>
+          <div class="fragment fade-in" data-fragment-index="3" style="width:100%; position:absolute;">
+            <img class="noborder center" style="border:1px solid lightgrey; width:80%;margin-left:6em; margin-top:6em" src="../images/af1_cover.png">
+          </div>
+  
+          <aside class="notes">
+            These are exciting times, and many interesting developments are happning in 3D structure prediciton at the moment!
+          </aside>
+    
+        </section>
+  
+        <section>
+          <h3>AlphaFold 1</h3>
+
+          <img class="noborder centered" style="width:100%" src="../images/af1_fig2.svg">
+        </section>
+
+        <section>
+          <h3>AlphaFold 2</h3>
+
+          <img class="noborder centered" style="width:75%; float:left" src="../images/af2_cover.png"><img class="noborder fragment" style="float:left;width:24%; background-color: white; border:1px solid lightgrey" src="../images/af2_fig1a.svg">
+
+        </section>
+
+        <section>
+          <img class="noborder centered" style="width:100%" src="../images/af2_model.svg">
+        </section>
+
+        <section>
+          <h3>Confidence scores: pLDDT</h3>
+
+          <p>AF2 predicts a confidence score for each residue, called pLDDT (predicted local distance difference test). </p>
+          <p>It is a measure of how well the predicted structure fits the input data. It is a number between 0 and 100, where 100 is the best possible score.</p>
+
+          <p>This is a <em>local</em> score.</p>
+
+<!--           <p>During training, the LDDT between the final predicted structure and the ground truth is calculated, discretized into </p>
+ -->        
+        </section>
+
+        <section>
+          <h3>Confidence scores: PAE</h3>
+
+          <p>AF2 also predicts a confidence score for each pair of residues, called pAE (predicted aligned error). </p>
+
+          <p>It reports on how accurate a position \(r_i\) is, if the global structures have been aligned on \(r_j\)  </p>
+
+          <p>This is a <em>global</em> score.</p>
+
+        </section>
+
+        <section>
+          <h3>Confidence scores example</h3>
+
+          <img class="noborder centered" style="width:100%" src="../images/af2_confidence_scores_example.jpg" alt="">
+
+          <span style="font-size:40%; float:right">Source: https://www.deepmind.com/blog/enabling-high-accuracy-protein-structure-prediction-at-the-proteome-scale</span>
+
+        </section>
+
+        <section>
+          <h3>AlphaFold 3 - the story continues</h3>
+
+          <img class="noborder centered" style="width:85%; margin-top:1em" src="../images/af3_cover.png">
+
+        </section>
+
+<!--         <section>
+
+          pLDDT: What does it mean. Why is it useful. What does it NOT tell us (only local quality - not relative placement over larger distances )
+          PAE: confidence in relative positions of pairs of residues: Expected position error at residue i, if the predicted and true structure would be aligned at residue j. Relevant when assessing domain placement in a multidomain protein
+
+          metagenomics
+
+          Not a replacement for experiment.
+          Not predicting position of non-protein components
+          PTMs
+          Dynamics
+          Not informative for destablizing point mutations
+
+          Predicting complexes
+
+        </section>
+ -->
+
+      </div>
+    </div>
+
+    <script src="../hide_before_week_day_time.js"></script>
+    <script>
+       var hideSolutions = false;
+       if(hideSolutions)
+          hideBeforeWeekDayTime(document, 40, 'mon', 12)
+    </script>
+
+    <script src="../reveal.js-4.3.1/dist/reveal.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/zoom/zoom.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/notes/notes.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/search/search.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/math/math.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/reveald3/reveald3.js"></script>
+
+    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <script src="../reveal_d3.js"></script>    
+
+    <script>
+
+       // Full list of configuration options available here:
+       // https://github.com/hakimel/reveal.js#configuration
+       Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+          transitionSpeed: 'fast',
+          touch: true,
+          keyboard: true,
+
+          slideNumber: true,
+
+          minScale: 0.1,
+          maxScale: 5.0,
+
+          transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+          plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath, Reveald3 ]
+       });
+
+    </script>
+
+  </body>
+</html>
