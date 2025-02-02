@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Integrative Structural Biology - Python intro</title>
+
+    <meta name="description" content="Slides for the Integrative Structural Biology course">
+    <meta name="author" content="Wouter Boomsma">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/theme/white-helv.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js-4.3.1/plugin/highlight/googlecode.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      	var link = document.createElement( 'link' );
+      	link.rel = 'stylesheet';
+      	link.type = 'text/css';
+      	link.href = '../reveal.js-4.3.1/css/print/pdf.css';
+      	document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <style>
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal a {
+        color:DarkSlateBlue;
+      }
+      .reveal dt {
+        margin-top:0.5em;
+      }
+      .reveal section img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal a img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal img.noborder {
+        border: none;
+        box-shadow: none;
+      }      
+      .reveal pre {
+        width: 97.5%;
+      }      
+      .reveal code .label {
+        background:#E8E8E8;
+        color:grey;
+        padding:4px;
+        height:1em;
+        position:absolute;
+        right:0px;
+        top:0px;
+      }
+      .reveal .twocols50 {
+        width:47%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols30 {
+        width:27%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols70 {
+        width:67%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols20 {
+        width:17%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols80 {
+        width:77%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols40 {
+        width:37%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols60 {
+        width:57%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal section div.container{
+          display: flex;
+      }
+      .reveal section div.container div{
+          flex: 1;
+      }
+      .reveal dt.spaced {
+          margin-top:0.5em;
+      }
+
+    </style>
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+      
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+        <section>
+          <br/>
+          <h1>Integrative Structural Biology</h1>
+          <h4>Module 2B - Python Programming </h4>
+          <div style="text-align:left; font-size:100%; border:1px solid lightgrey; background-color: #fafafa; padding:0.5em; display:inline-block; margin-top:0em; padding-top:0em;padding-right:3em;">
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">More container-types:</h4>
+            <ul>
+              <li>Tuples</li>
+              <li>Dictionaries</li>
+            </ul>
+          </div>
+        </section>
+
+<!--        <section class="solution">-->
+<!--          <h3>Recap: datatypes &mdash; a popquiz</h3>-->
+<!--          <ul>-->
+<!--            <li>How do you find the length of a string?</li>-->
+<!--            <li>How do you extract a substring from a string?</li>-->
+<!--            <li>What is the difference between a function and a method?</li>-->
+<!--            <li>What does the <code>strip</code> string-method do?</li>-->
+<!--            <li>What is the difference between a for-loop and a while loop?</li>-->
+<!--            <li>What is the difference between <code>sort()</code> and <code>sorted()</code></li>-->
+<!--            <li>What does the range function do?</li>-->
+<!--          </ul>-->
+<!--        </section>-->
+
+
+        <section style="text-align:center">
+          <h2>Tuples</h2>
+        </section>
+
+        <section>
+          <h3>Types: Tuples</h3>
+          <p>Tuples are immutable lists. This means that you cannot alter them in any
+            way after you have created them (just like strings).</p>
+          <span class="fragment"><p >Tuples are defined using commas, and often using parentheses:</p>
+            <pre><code class="python" data-trim>t = (1,2,3,4)
+t = 1,2,3,4    # parenthesis can be ommitted</code></pre></span>
+          <span class="fragment"><p>Example:
+              <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim>x = 3
+y = 4
+print((x,y))   # Making a tuple on-the-fly
+          </code></pre>
+          <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>
+
+(3, 4)
+            </code></pre></p>
+          </span>
+        </section>
+
+        <section>
+          <h3>Types: Tuples &mdash; assigning</h3>
+
+          <p>You can assign to multiple variables at once by using a tuple on the left-hand side of the assignment</p>
+
+          <pre><code class="python" data-trim>my_tuple = (1,2)    # Creating a tuple
+x, y = my_tuple     # Assigning variable x to 1 and variable y to 2
+          </code></pre>
+
+          <span class="fragment">
+            <p>Another example:</p>
+            <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim>x,y = y,x      # Nice trick: swapping the values
+print((x,y))   # of x and y
+            </code></pre>
+            <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>
+(2, 1)
+            </code></pre>
+          </span>
+
+        </section>
+
+        <section>
+          <h3>Types: Tuples &mdash; operators</h3>
+          <p>Tuples support a subset of the operators and methods of lists (only ones that don't modify the collection):</p>
+          <pre><code>+, *, [], ==, !=, <, <=, >, >=, in</code></pre>
+          <span class="fragment"><p>Just as with strings, you cannot assign to an entry in a tuple (due to immutability):</p>
+            <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim>t = (1,2,3,4)
+t[2] = 1
+            </code></pre>
+            <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim data-noescape><div class="label">output</div>
+Traceback (most recent call last):
+File "&lt;stdin&gt;", line 1, in ?
+TypeError: object doesn’t support item assignment
+            </code></pre>
+          </span>
+        </section>
+
+        <section>
+          <h3>Types: Tuples &mdash; why?</h3>
+          <p>Why have tuples when we already have lists?</p>
+          <p><ul>
+          <li class="fragment">Tuples are smaller and faster.</li>
+          <li class="fragment">Tuples are used as return values from functions.</li>
+          <li class="fragment">The fact that tuples are immutable makes it possible to use them as
+            keys in a dictionary. More about this later today.</li>
+        </ul></p>
+          <p class="fragment">Tuples are a streamlined version of lists. If you know in advance that your
+            sequences are fixed (e.g. coordinates in space) then use tuples.</p>
+        </section>
+
+        <section>
+          <h3>Tuples &mdash; exercise</h3>
+          <ol>
+            <li>Create a tuple called <code>triplet</code> of size 3 containing the numbers 1, 2, and 3.</li>
+            <li>Create three variables <code>x</code>, <code>y</code> and <code>z</code> and use the tuple <code>triplet</code> to initialize them.</li>
+            <li>Now create a tuple called <code>quartet</code> of size 4 (with the numbers 1,2,3,4), and try it again. What happens?</li>
+            <li>Tuples support slicing. Can you use this to fix the problem?</li>
+          </ol>
+        </section>
+
+        <section class="solution">
+          <h3>Tuples &mdash; exercise &mdash; solution</h3>
+          <ol>
+            <li>Create a tuple called <code>triplet</code> of size 3 containing the numbers 1, 2, and 3.</li>
+            <pre class="fragment"><code class="python" data-trim>triplet = (1,2,3)</code></pre>
+            <li>Create three variables <code>x</code>, <code>y</code> and <code>z</code> and use the tuple <code>triplet</code> to initialize them.</li>
+            <pre class="fragment"><code class="python" data-trim>x,y,z = triplet</code></pre>
+            <li>Now create a tuple called <code>quartet</code> of size 4, and try it again. What happens?</li>
+            <span class="fragment">
+            <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim>quartet = (1,2,3,4)
+x,y,z = quartet
+            </code></pre>
+            <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim data-noescape><div class="label">output</div>
+Traceback (most recent call last):
+  File "/home/lpp/lpp2016/test.py", line 2, in &lt;module&gt;
+    x,y,z = quartet
+ValueError: too many values to unpack
+            </code></pre>
+            </span>
+          </ol>
+        </section>
+
+        <section class="solution">
+          <h3>Tuples &mdash; exercise &mdash; solution (2)</h3>
+          <ol>
+            <li>Tuples support slicing. Can you use this to fix the problem?</li>
+            <pre class="fragment"><code class="python" data-trim>
+                x,y,z = quartet[:3]    # Only use index 0,1,2
+            </code></pre>
+            <span class="fragment"><p>or</p>
+            <pre><code class="python" data-trim>
+x,y,z,_ = quartet      # _ is often used as a dummy variable
+            </code></pre></span>
+          </ol>
+        </section>
+
+        <section style="text-align:center">
+          <h2>Dictionaries</h2>
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Types: Dictionaries</h3>
+
+          <p>Recall: lists give you access to a value through their index:</p>
+          <pre><code class="python" data-trim>
+my_list = ["a", "b", "c"]
+print(my_list[1])    # lookup using index. Index 1 =&gt; "b"
+          </code></pre>
+
+          <p class="fragment">Dictionaries are similar, but more general: they give access to values by their <i>key</i>, which can for instance be strings.
+
+          <p class="fragment">Dictionaries consist of (key, value) pairs. They are defined using
+            curly brackets with ":" as key/value separator:</p>
+
+          <span class="fragment">
+          <p>Example:</p>
+          <pre><code class="python" data-trim>days = {'Mon':'Monday', 'Tue':'Tuesday', 'Wed':'Wednesday'}
+          </code></pre>
+          <p>Idea: associate weekdays with their abbreviations</p>
+          </span>
+
+        </section>
+
+
+        <!--        <section style="font-size:95%">-->
+        <!--          <h3>Types: Dictionaries</h3>-->
+
+        <!--          <p>Recall: lists give you access to a value through their index:</p>-->
+        <!--          <pre><code class="python" data-trim>-->
+        <!--my_list = ["a", "b", "c"]-->
+        <!--print(my_list[1])    # lookup using index. Index 1 =&gt; "b"-->
+        <!--          </code></pre>-->
+
+        <!--          <p class="fragment">Dictionaries are similar, but more general: they give access to values by their <i>key</i>, which can for instance be strings.-->
+
+        <!--          <p class="fragment">Dictionaries consist of (key, value) pairs. They are defined using-->
+        <!--            curly brackets with ":" as key/value separator:</p>-->
+
+        <!--          <span class="fragment">-->
+        <!--          <p>Example:</p>-->
+        <!--          <pre><code class="python" data-trim>DNA = {'A':'Adenine', 'C':'Cytosine', 'G':'Guanine', 'T':'Thymine'}-->
+        <!--          </code></pre>-->
+        <!--          <p>Idea: associate DNA nucleotides with their abbreviations</p>-->
+        <!--          </span>-->
+
+        <!--        </section>-->
+
+        <section style="font-size:95%">
+          <h3>Types:Dictionaries &mdash; accessing elements</h3>
+          <p>You can look up an element in a dictionary using []:</p>
+          <pre><code class="python" data-trim>days = {'Mon':'Monday', 'Tue':'Tuesday', 'Wed':'Wednesday'}
+print(days['Mon'])
+          </code></pre>
+          <pre><code class="python" data-trim data-noescape><div class="label">output</div>'Monday'
+          </code></pre>
+          <p class="fragment">Note the similarity to lists, except that individual elements are not associated with an index number, but a <em>key</em>.</p>
+          <span class="fragment">
+          <p>You will get a KeyError if you use a key that doesn’t exist:</p>
+          <pre><code class="python" data-trim>print(days['Fri'])</code></pre>
+          <pre><code class="python" data-trim data-noescape><div class="label">output</div>Traceback (most recent call last):
+  File "test.py", line 2, in &lt;module&gt;
+    print(days['Fri'])
+KeyError: 'Fri'
+          </code></pre></span>
+        </section>
+
+        <!--        <section style="font-size:95%">-->
+        <!--          <h3>Types:Dictionaries &mdash; accessing elements</h3>-->
+        <!--          <p>You can look up an element in a dictionary using []:</p>-->
+        <!--          <pre><code class="python" data-trim>DNA = {'A':'Adenine', 'C':'Cytosine', 'G':'Guanine', 'T':'Thymine'}-->
+        <!--print(DNA['A'])-->
+        <!--          </code></pre>-->
+        <!--          <pre><code class="python" data-trim data-noescape><div class="label">output</div>’Adenine’-->
+        <!--          </code></pre>-->
+        <!--          <p class="fragment">Note the similarity to lists, except that individual elements are not associated with an index number, but a <em>key</em>.</p>-->
+        <!--          <span class="fragment">-->
+        <!--          <p>You'll get a KeyError if you specify a key that doesn’t exist:</p>-->
+        <!--          <pre><code class="python" data-trim>print(DNA['U'])</code></pre>-->
+        <!--          <pre><code class="python" data-trim data-noescape><div class="label">output</div>Traceback (most recent call last):-->
+        <!--  File "/home/lpp/lpp2016/test.py", line 2, in &lt;module&gt;-->
+        <!--    print(DNA['U'])-->
+        <!--KeyError: 'U'-->
+        <!--          </code></pre>-->
+        <!--        </section>-->
+
+        <section style="font-size:90%">
+          <h3>Types: Dictionaries &mdash; inserting and deleting elements</h3>
+          <p>You can add new elements to a dictionary using the [] operator:</p>
+          <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim>days = {}   # empty dictionary
+days['Mon'] = 'Monday'
+print(days)
+          </code></pre>
+          <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>
+
+{’Mon’: ’Monday’}
+          </code></pre>
+          <span class="fragment">
+          <p>Elements can be deleted using the <code>del</code> statement:</p>
+          <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim>del days['Mon']
+print(days)
+          </code></pre>
+          <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>
+{}
+          </code></pre></span>
+        </section>
+
+        <!--        <section>-->
+        <!--          <h3>Types: Dictionaries &mdash; inserting and deleting elements</h3>-->
+        <!--          <p>You can add new elements to a dictionary using the [] operator:</p>-->
+        <!--          <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim>d = {}   # empty dictionary-->
+        <!--d['A'] = 'Adenine'-->
+        <!--print(d)-->
+        <!--          </code></pre>-->
+        <!--          <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>-->
+
+        <!--{’A’: ’Adenine’}-->
+        <!--          </code></pre>-->
+        <!--          <span class="fragment">-->
+        <!--          <p>Elements can be deleted using the <code>del</code> statement:</p>-->
+        <!--          <pre style="margin-top:0;" class="twocols70"><code class="python" data-trim>del d['A']-->
+        <!--print(d)-->
+        <!--          </code></pre>-->
+        <!--          <pre style="margin-top:0;" class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>-->
+        <!--{}-->
+        <!--          </code></pre>-->
+        <!--        </section>-->
+
+        <section>
+          <h3>Types: Dictionaries are not ordered</h3>
+
+          <p>One important difference from lists, is that dictionaries are not ordered</p>
+
+          <pre><code class="python" data-trim>days = {'Mon':'Monday', 'Tue':'Tuesday', 'Wed':'Wednesday'}
+print(days)
+          </code></pre>
+          <pre><code class="python" data-trim data-noescape>
+{'Tue': 'Tuesday', 'Mon': 'Monday', 'Wed': 'Wednesday'}
+          </code></pre>
+
+          <p class="fragment"><b>Take home message: You cannot rely on the dictionary maintaining the order in which you insert elements - you can only access them by their key.</b></p>
+
+          <p class="fragment">This has changed in recent versions of Python (3.7+). They are now ordered by order of insertion.</p>
+
+        </section>
+
+        <!--        <section>-->
+        <!--          <h3>Types: Dictionaries are not ordered</h3>-->
+
+        <!--          <p>One important difference from lists, is that dictionaries are not ordered</p>-->
+
+        <!--          <pre><code class="python" data-trim>DNA = {'A':'Adenine', 'C':'Cytosine', 'G':'Guanine', 'T':'Thymine'}-->
+        <!--print(DNA)-->
+        <!--          </code></pre>-->
+        <!--          <pre><code class="python" data-trim data-noescape>-->
+        <!--{'A': 'Adenine', 'C': 'Cytosine', 'T': 'Thymine', 'G': 'Guanine'}-->
+        <!--          </code></pre>-->
+
+        <!--          <p class="fragment"><b>Take home message: You cannot rely on the dictionary maintaining the order in which you insert elements - you can only access them by their key.</b></p>-->
+
+        <!--          <p class="fragment">This has changed in recent versions of Python (3.7+). They are now ordered by order of insertion. <span class="fragment">My opinion: the original implementation was more pedagogical :)<span> </p>-->
+
+        <!--        </section>-->
+
+        <section>
+          <h3>Types: Dictionaries &mdash; operators</h3>
+          <p>The only really meaningful operators for dictionaries are</p>
+          <pre><code>==, !=, [], in</code></pre>
+
+          <p>which provide the same functionality as they do in lists</p>
+        </section>
+
+        <section>
+          <h3>Types: Dictionaries &mdash; methods</h3>
+          <p>Some interesting dictionary methods:</p>
+
+          <table style="font-size:60%;">
+            <tr><td><code>get</code></td><td>Similar to <code>[]</code> - without key errors</td></tr>
+            <!-- <tr><td><code>has_key</code></td><td>Check whether key is present in dictionary</td></tr> -->
+            <tr><td><code>items</code></td><td>Return list of (key,value) tuples</td></tr>
+            <tr><td><code>keys</code></td><td>Return list of keys</td></tr>
+            <tr><td><code>pop</code></td><td>Remove specified key and return value</td></tr>
+            <tr><td><code>popitem</code></td><td>Remove specified key and return (key,value) tuple</td></tr>
+            <tr><td><code>setdefault</code></td><td>Same as get, but add (key, None) if key is not already there</td></tr>
+            <tr><td><code>update</code></td><td>Add all elements from specified dictionary to current dictionary</td></tr>
+            <tr><td><code>values</code></td><td>Return list of values</td></tr>
+          </table>
+
+          <pre><code class="python" data-trim>&gt;&gt;&gt; days.keys()
+[’Tue’, ’Mon’, ’Wed’]
+&gt;&gt;&gt; days.pop('Wed')
+’Wednesday’
+&gt;&gt;&gt; 'Wed' in days
+False
+          </code></pre>
+          <!--          <pre><code class="python" data-trim>&gt;&gt;&gt; DNA.keys()-->
+          <!--[’A’, ’C’, ’T’, ’G’]-->
+          <!--&gt;&gt;&gt; DNA.pop('T')-->
+          <!--’Thymine’-->
+          <!--&gt;&gt;&gt; 'T' in DNA-->
+          <!--False-->
+          <!--          </code></pre>-->
+        </section>
+
+        <section>
+          <h3>Dictionaries &mdash; exercise</h3>
+          <ol>
+            <li>Create a dictionary with the keys "firstname", "lastname", and "age",
+              and appropriate values.</li>
+            <li>Add a key named "address" to this dictionary.</li>
+            <li>Print out the list of keys in your dictionary.</li>
+            <li>Create a "name" key which as value contains a string with both
+              your first and last names. Then remove the first name and last name keys.
+              Can you do this without actually typing in your name again?</li>
+          </ol>
+        </section>
+
+        <section class="solution">
+          <h3>Dictionaries &mdash; exercise &mdash;  solution</h3>
+          <ol>
+            <li>Create a dictionary with the keys firstname, lastname, and age,
+              and appropriate values.</li>
+            <pre class="fragment"><code class="python" data-trim>personal_info = {"firstname": "Donald",
+                 "lastname": "Trump",
+                 "age": 74}
+            </code></pre>
+            <li>Add an <code>address</code> key to this dictionary.</li>
+            <pre class="fragment"><code class="python" data-trim>personal_info["address"] = "Whitehouse"</code></pre>
+            <li>Print out the list of keys in your dictionary.</li>
+            <span class="fragment">
+            <pre><code class="python" data-trim>print(personal_info.keys())
+            </code></pre>
+            <pre><code class="python" data-trim data-noescape><div class="label">output</div>dict_keys(['firstname', 'lastname', 'age', 'address'])
+            </code></pre>
+            </span>
+          </ol>
+        </section>
+
+        <section class="solution" style="font-size:90%">
+          <h3>Dictionaries &mdash; exercise &mdash;  solution (2)</h3>
+          <ol start="4">
+            <li>Create a "name" key which as associated value contains a string with both
+              your first and last names. Then remove the first name and last name keys.
+              Can you do this without actually typing your name again?</li>
+            <pre class="fragment" data-fragment-index="1"><code class="python" data-trim>
+personal_info["name"] = personal_info["firstname"] + " " + \
+                        personal_info["lastname"]
+del personal_info["firstname"]
+del personal_info["lastname"]
+print(personal_info)
+              </code></pre>
+            <pre class="fragment" data-fragment-index="1"><code class="python" data-trim data-noescape><div class="label">output</div>{'age': 74, 'name': 'Donald Trump', 'address': 'Whitehouse'}
+            </code></pre>
+
+            <span class="fragment" data-fragment-index="2">
+              Or:
+            <pre><code class="python" data-trim>
+personal_info["name"] = personal_info.pop("firstname") + " " + \
+                        personal_info.pop("lastname")
+            </code></pre>
+            </span>
+          </ol>
+        </section>
+
+        <section style="text-align:center">
+          <h2>The NoneType</h2>
+        </section>
+
+        <section>
+          <h3>Types - the None value</h3>
+          <p>
+            It is possible to specify an empty value – the value <code>None</code>.<br>
+            <code>None</code> is often returned from functions as an empty result:<br>
+          <pre><code class="python" data-trim>print(days.get('bla'))  # Get returns None if the key is not found
+            </pre></code>
+          <pre><code class="python" data-trim data-noescape><div class="label">output</div>None
+            </pre></code>
+          <!--             <p>You have to use <code>print</code> here. Unlike normal values, None values are not -->
+          <!--             output when evaluated in an interactive session:</p> -->
+          <!--             <pre><code class="python" data-trim>&gt;&gt;&gt; DNA.get('U') # Get returns None -->
+          <!-- &gt;&gt;&gt;  -->
+          <!--             </pre></code> -->
+        </section>
+
+
+        <section style="text-align:center">
+          <h2>Collection types: which should I use?</h2>
+        </section>
+
+        <section>
+          <h3>Collection types – an overview</h3>
+          <p>We covered various collection types last week, but when do you use what?</p>
+          <ul>
+            <li>lists</li>
+            <li>tuples</li>
+            <li>dictionaries</li>
+          </ul>
+          <p>It can be very important what collection type you choose for your data.</p>
+          <p>Here are some questions you could ask yourself:</p>
+        </section>
+
+        <section>
+          <h3>Collection types – lists vs. dictionaries</h3>
+          <p><b>Is my data unordered or ordered?</b></p>
+          <p>Examples:<br/>
+
+          <ul>
+            <li class="fragment">The lines in a file are often naturally ordered, and most
+              efficiently stored in a list.</li>
+            <li class="fragment">Experimental results on different genes might be unordered, and could
+              be stored in a dictionary using gene-names as keys.</li>
+          </ul>
+          </p>
+          <p class="fragment">Note: Sometimes it makes sense to use a dictionary to store ordered data - when the data is sparse.</p>
+        </section>
+
+        <section>
+          <h3>Collection types – lists vs. tuples</h3>
+          <p><b>Is the collection size naturally fixed?</b></p>
+          <p>Tuples should be used when the type of data you are working with always
+            has the same number of items, and the items don’t need to be changed
+            individually</p>
+          <p>Examples:</p>
+          <ul>
+            <li>3D-coordinates</li>
+            <li>Each line of a file containing experimental results with a fixed number of columns</li>
+          </ul>
+        </section>
+
+<!--        <section>-->
+<!--          <h3>Exercise on all we've done so far</h3>-->
+
+<!--          <p>We're now going to try and combine what we've learned so far, in a slightly longer exercise.</p>-->
+
+<!--          <ol>-->
+<!--            <li></li>-->
+<!--          </ol>-->
+
+
+<!--        </section>-->
+
+      </div>
+    </div>
+
+    <script src="../hide_before_week_day_time.js"></script>
+    <script>
+       var hideSolutions = false;
+       if(hideSolutions)
+          hideBeforeWeekDayTime(document, 6, 'thu', 12)
+    </script>
+
+    <script src="../reveal.js-4.3.1/dist/reveal.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/zoom/zoom.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/notes/notes.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/search/search.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/math/math.js"></script>
+
+    <script>
+
+       // Full list of configuration options available here:
+       // https://github.com/hakimel/reveal.js#configuration
+       Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+          transitionSpeed: 'fast',
+          touch: true,
+          keyboard: true,
+
+          slideNumber: true,
+
+          minScale: 0.1,
+          maxScale: 5.0,
+
+          transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+          plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath ]
+       });
+
+    </script>
+
+  </body>
+</html>

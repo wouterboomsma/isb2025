@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Integrative Structural Biology - Python intro</title>
+
+    <meta name="description" content="Slides for the Integrative Structural Biology course">
+    <meta name="author" content="Wouter Boomsma">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/theme/white-helv.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js-4.3.1/plugin/highlight/googlecode.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      	var link = document.createElement( 'link' );
+      	link.rel = 'stylesheet';
+      	link.type = 'text/css';
+      	link.href = '../reveal.js-4.3.1/css/print/pdf.css';
+      	document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <style>
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal a {
+        color:DarkSlateBlue;
+      }
+      .reveal dt {
+        margin-top:0.5em;
+        font-style:italic;
+      }
+      .reveal section img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal a img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal img.noborder {
+        border: none;
+        box-shadow: none;
+      }      
+      .reveal pre {
+        width: 97.5%;
+      }      
+      .reveal code .label {
+        background:#E8E8E8;
+        color:grey;
+        padding:4px;
+        height:1em;
+        position:absolute;
+        right:0px;
+        top:0px;
+      }
+      .reveal .twocols50 {
+        width:47%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols30 {
+        width:27%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols70 {
+        width:67%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols20 {
+        width:17%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols80 {
+        width:77%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols40 {
+        width:37%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols60 {
+        width:57%;
+        float:left;
+        margin:1.5%;
+      }
+
+
+      div.ipython {box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); margin:20px auto; padding:0.2em; width:95%}
+      p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%; font-family: monospace; color: #000000}
+      p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #c1651c}
+      p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #2d961e}
+      p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #000000; }
+      p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace;  color: #318bee}
+      span.s1 {font-variant-ligatures: no-common-ligatures; color: #2d961e}
+      span.s2 {font-variant-ligatures: no-common-ligatures; color: #2fe71a}
+      span.s3 {font-variant-ligatures: no-common-ligatures}
+      span.s4 {font-variant-ligatures: no-common-ligatures; color: #318bee}
+      span.s5 {font-variant-ligatures: no-common-ligatures; color: #000000}
+      span.s6 {font-variant-ligatures: no-common-ligatures; background-color: #aeaeae}
+
+
+    </style>
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+      
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+        <section>
+          <br/>
+          <h1>Integrative Structural Biology</h1>
+          <h4>Module 2B - Python Programming </h4>
+          <!-- <div style="text-align:left; font-size:100%; border:1px solid lightgrey; background-color: #fafafa; padding:0.5em; display:inline-block; margin-top:0em; padding-top:0em;padding-right:3em;">
+
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Running Python (notebooks)</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Variables and simple types</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Conditionals</h4>
+          </div> -->
+        </section>
+
+<!--        <section>-->
+<!--          <br/>-->
+<!--          <h1>Integrative Structural Biology</h1>-->
+<!--          <h4>Module 2B: Python introduction</h4>-->
+<!--          <h4>Lecturers: Wouter Boomsma and Lasse Blaabjerg</h4>-->
+<!--        </section>-->
+        <section style="font-size:95%">
+          <h2>Overview</h2>
+
+          <dl style="margin-top:-0.5em">
+            <dt  style="font-weight: bolder">Pre-lecture (video)</dt>
+            <dd><ul><li>Jupyter notebooks, variables, conditionals</li></ul></dd>
+        <dt style="font-weight: bolder">Thursday 08/02: 9-12 </dt>
+            <dd>
+              <dl>
+                <dt>9-12: Lecture and exercises (live)</dt>
+                <dd><ul><li>Lists, strings, loops, files</li></ul></dd>
+                <dt>13-16: Lecture and exercises (live)</dt>
+                <dd><ul><li>More container types: tuples, dictionaries</li></ul></dd>
+              </dl>
+            </dd>
+            <dt  style="font-weight: bolder">Post-lecture (videos & exercise)</dt>
+            <dd>
+              <ul><li>External modules: numpy, matplotlib</li></ul>
+            </dd>
+          </dl>
+        </section>
+      </div>
+    </div>
+
+    <script src="../hide_before_week_day_time.js"></script>
+    <script>
+       var hideSolutions = false;
+       if(hideSolutions)
+          hideBeforeWeekDayTime(document, 40, 'mon', 12)
+    </script>
+
+    <script src="../reveal.js-4.3.1/dist/reveal.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/zoom/zoom.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/notes/notes.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/search/search.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/math/math.js"></script>
+
+    <script>
+
+       // Full list of configuration options available here:
+       // https://github.com/hakimel/reveal.js#configuration
+       Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+          transitionSpeed: 'fast',
+          touch: true,
+          keyboard: true,
+
+          slideNumber: true,
+
+          minScale: 0.1,
+          maxScale: 5.0,
+
+          transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+          plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath ]
+       });
+
+    </script>
+
+  </body>
+</html>

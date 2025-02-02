@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Integrative Structural Biology - Python intro</title>
+
+    <meta name="description" content="Slides for the Integrative Structural Biology course">
+    <meta name="author" content="Wouter Boomsma">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/theme/white-helv.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js-4.3.1/plugin/highlight/googlecode.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      	var link = document.createElement( 'link' );
+      	link.rel = 'stylesheet';
+      	link.type = 'text/css';
+      	link.href = '../reveal.js-4.3.1/css/print/pdf.css';
+      	document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <style>
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal a {
+        color:DarkSlateBlue;
+      }
+      .reveal dt {
+        margin-top:0.5em;
+        font-style:italic;
+      }
+      .reveal section img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal a img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal img.noborder {
+        border: none;
+        box-shadow: none;
+      }      
+      .reveal pre {
+        width: 97.5%;
+      }      
+      .reveal code .label {
+        background:#E8E8E8;
+        color:grey;
+        padding:4px;
+        height:1em;
+        position:absolute;
+        right:0px;
+        top:0px;
+      }
+      .reveal .twocols50 {
+        width:47%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols30 {
+        width:27%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols70 {
+        width:67%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols20 {
+        width:17%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols80 {
+        width:77%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols40 {
+        width:37%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols60 {
+        width:57%;
+        float:left;
+        margin:1.5%;
+      }
+
+
+      div.ipython {box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); margin:20px auto; padding:0.2em; width:95%}
+      p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%; font-family: monospace; color: #000000}
+      p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #c1651c}
+      p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #2d961e}
+      p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace; color: #000000; }
+      p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font-size: 60%;  font-family: monospace;  color: #318bee}
+      span.s1 {font-variant-ligatures: no-common-ligatures; color: #2d961e}
+      span.s2 {font-variant-ligatures: no-common-ligatures; color: #2fe71a}
+      span.s3 {font-variant-ligatures: no-common-ligatures}
+      span.s4 {font-variant-ligatures: no-common-ligatures; color: #318bee}
+      span.s5 {font-variant-ligatures: no-common-ligatures; color: #000000}
+      span.s6 {font-variant-ligatures: no-common-ligatures; background-color: #aeaeae}
+
+
+    </style>
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+      
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+        <section>
+          <br/>
+          <h1>Integrative Structural Biology</h1>
+          <h4>Module 2B - Python Programming </h4>
+          <div style="text-align:left; font-size:100%; border:1px solid lightgrey; background-color: #fafafa; padding:0.5em; display:inline-block; margin-top:0em; padding-top:0em;padding-right:3em;">
+
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Running Python (notebooks)</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Variables and simple types</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Conditionals</h4>
+<!--            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">What are functions and methods?</h4>-->
+          </div>
+        </section>
+
+<!--        <section>-->
+<!--          <br/>-->
+<!--          <h1>Integrative Structural Biology</h1>-->
+<!--          <h4>Module 2B: Python introduction</h4>-->
+<!--          <h4>Lecturers: Wouter Boomsma and Lasse Blaabjerg</h4>-->
+<!--        </section>-->
+
+        <section>
+          <h3>Why Python?</h3>
+          <p class="fragment">Python is a "multi-paradigm" language. It supports procedural, object-oriented and functional programming.</p>
+          <p class="fragment">It has extensive libraries for scientific computing, e.g bioinformatics.</p>
+          <p class="fragment">It is (mostly) platform independent.</p>
+          <p class="fragment">It is easy to learn </p>
+          <p class="fragment">It encourages (enforces) clean, well-structured code </p>
+        </section>
+
+        <section>
+          <h3>How can I run Python?</h3>
+
+          <p>Python can be (and might already be) installed on your own laptops.</p>
+
+          <p class="fragment">But, to avoid installation hassle, we will in this course run Python on an external server, where everything is already installed.</p>
+
+          <p class="fragment">We'll do this in a <em>jupyter notebook</em> environment, which means we can run Python within our web browser.</p>
+        </section>
+
+        <section>
+          <h3>Where can I run my Jupyter Notebook?</h3>
+
+          <p>In this course, you are free to choose among these options:</p>
+
+          <dl>
+            <dt>Jupyter notebook through UCPH's ERDA system</dt>
+            <dd>Requires that you create an ERDA account at <a href="https://erda.ku.dk/">https://erda.ku.dk</a></dd>
+            <dt>Google Colab: <a href="https://colab.research.google.com/">https://colab.research.google.com/</a></dt>
+            <dd>Requires a Google account (at least if you want to save your work)</dd>
+          </dl>
+
+        </section>
+
+        <section>
+          <h3>Option 1: Jupyter through ERDA (1)</h3>
+
+          <p>After logging in, click on the Jupyter button...</p>
+
+          <img class="center" style="width:100%" src="../images/erda_screen1.png">
+
+        </section>
+
+        <section>
+          <h3>Option 1: Jupyter through ERDA (2)</h3>
+
+          <p>Then, click the "Start DAG" button...</p>
+
+          <img class="center" style="width:100%" src="../images/erda_screen2.png">
+
+        </section>
+
+        <section>
+          <h3>Option 1: Jupyter through ERDA (3)</h3>
+
+          <p>Then, choose "Datascience notebook with Python", and press "start"</p>
+
+          <img class="center" style="width:100%" src="../images/erda_screen3.png">
+
+        </section>
+
+        <section>
+          <h3>Option 1: Jupyter through ERDA (4)</h3>
+
+          <p>Now, make sure to double-click on work, so that you create your notebook within the work directory (feel free to create a new subdirectory under "work" if you prefer).</p>
+
+          <img class="center" style="width:100%" src="../images/erda_screen3.5.png">
+
+        </section>
+
+        <section style="font-size:95%">
+          <h3>Option 1: Jupyter through ERDA (5)</h3>
+
+          <p>Then, click on the "Python 3" button under "Notebook". Note that I created a "work/notebooks" directory to work in.</p>
+
+          <img class="center" style="width:100%" src="../images/erda_screen4.png">
+
+        </section>
+
+        <section>
+          <h3>Option 1: Jupyter through ERDA (6)</h3>
+
+          <p>Now, you should have a notebook available to you:</p>
+          <img class="center" style="width:100%" src="../images/erda_screen5.png">
+        </section>
+
+        <section>
+          <h3>Option 2: Google Colab (1)</h3>
+
+          <p>If you have a Google account, you can just go to <a href="https://colab.research.google.com/">https://colab.research.google.com/</a>:</p>
+
+          <img class="center" style="width:100%" src="../images/colab_screen1.png">
+
+        </section>
+
+        <section>
+          <h3>Option 2: Google Colab (2)</h3>
+
+          <p>You should now have a notebook environment:</p>
+
+          <img class="center" style="width:100%" src="../images/colab_screen2.png">
+
+        </section>
+
+        <section style="text-align:center">
+          <h3>Working in Jupyter Notebooks</h3>
+        </section>
+
+        <section>
+          <h3>Jupyter notebooks: how do I run code?</h3>
+
+          <p>If you press shift-enter after each line of code, Jupyter notebooks will run a line of code:</p>
+
+          <img class="center noborder" style="width:70%" src="../images/jupyter_single_line.png"></p>
+
+        </section>
+
+        <section>
+          <h3>Jupyter notebooks: multiple lines</h3>
+
+          <p>You can run multiple lines of code in the same way:</p>
+
+          <img class="center noborder" style="width:70%" src="../images/jupyter_multiple_lines.png"></p>
+
+          <p>These blocks of code are called "cells"</p>
+
+        </section>
+        <section style="font-size:90%">
+          <h3>Jupyter notebooks: Cells</h3>
+
+          <p>You can have cells containing other things than code</p>
+
+          <div style="width:50%; float:left">
+            Different types of cells:
+            <dl>
+              <dt>Code</dt>
+              <dd>lines of code</dd>
+              <dt>Heading</dt>
+              <dd>Titles, subtitles etc.</dd>
+              <dt>Markdown</dt>
+              <dd>Text input using the markdown format.</dd>
+            </dl>
+          </div>
+          <div class="fragment" style="width:50%; float:left">
+            <p>You can switch cell type in the drop down menu:</p>
+
+            <img class="center noborder" style="width:70%" src="../images/jupyter_change_cell_type.png">
+          </div>
+
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Jupyter notebooks: Command and edit mode</h3>
+
+          <p>When working with a notebook, you can be in two modes</p>
+
+          <dl>
+            <dt>Edit mode</dt>
+            <dd>Editing the contents of a cell</dd>
+            <dt>Command mode</dt>
+            <dd>Nagivate through cells, insert cells, ...</dd>
+          </dl>
+        </section>
+
+        <section style="font-size:90%">
+          <h2>Jupyter notebooks: Shortcuts</h2>
+
+          <h3>Both modes</h3>
+
+          <table style="font-size:75%">
+            <tr><td>Shift-Enter</td><td>Execute cell, select cell below</td></tr>
+            <tr><td>Alt-Enter</td><td>Execute cell, insert new cell below</td></tr>
+            <tr><td>Ctrl-Enter</td><td>Execute selected cells</td></tr>
+            <tr><td>Ctrl-s</td><td>Save</td></tr>
+          </table>
+
+
+          <div style="width:50%; float:left">
+            <h3>Edit mode</h3>
+
+            <table style="font-size:75%">
+              <tr><td>Esc</td><td>Switch to Command mode</td></tr>
+              <tr><td>Tab</td><td>Code complete or indent</td></tr>
+              <!--              <tr><td>Shift-Tab</td><td>Tooltip</td></tr>-->
+              <tr><td>Enter</td><td>Just a normal newline</td></tr>
+            </table>
+
+          </div>
+          <div style="width:45%; float:right">
+            <h3>Command mode</h3>
+
+            <table style="font-size:75%">
+              <tr><td>Enter</td><td>Switch to Edit mode</td></tr>
+              <tr><td>Up/Down</td><td>Previous/next cell</td></tr>
+            </table>
+
+          </div>
+
+          <div style="clear:both"></div>
+
+          <p>There are many more, and you can also add your own. See <a href="https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Notebook%20Basics.html#Keyboard-Navigation">the online documentation</a>.</p>
+
+        </section>
+
+        <section style="font-size:100%">
+          <h3>Jupyter notebooks: Markdown cells</h3>
+
+          <p>Markdown cells allow you to write plain text...</p>
+
+          <span class="fragment">
+          <p>...but you can also add special formatting:</p>
+
+          <table style="font-size:75%">
+            <tr><td><pre style="margin:0"><code># header
+## subheader</pre></code></td><td>Titles of different sizes</td></tr>
+            <tr><td><pre style="margin:0"><code class="nohighlight">**bold** and *italic*</code></pre></td><td>Text formatting</td></tr>
+            <tr><td><pre style="margin:0"><code class="nohighlight">$O(n^2)$
+$$O(n^2)$$</code></pre></td><td>LaTeX math code (inline or multiline)</td></tr>
+            <tr><td><pre style="margin:0"><code class="nohighlight">```print("hello world!")```</code></pre></td><td>Formatted code</td></tr>
+            <tr><td><pre style="margin:0"><code class="nohighlight">1. first
+2. second</code></pre></td><td>Numbered list</td></tr>
+          </table>
+
+            <p>And much more. See <a href="https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Working%20With%20Markdown%20Cells.html">the online documentation</a>.</p>
+          </span>
+
+        </section>
+
+        <section>
+          <h3>Jupyter notebooks: Naming</h3>
+
+          <p>You can rename a notebook by clicking on the name: </p>
+
+          <img class="center noborder" style="width:70%" src="../images/jupyter_naming.png">
+
+          <p>Notebooks are saved in the current directory with the extension <code>.ipynb</code>.</p>
+
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Jupyter notebooks: Restarting the kernel</h3>
+
+          <p>You can restart your Python session through the Kernel menu</p>
+
+          <img class="center noborder" style="width:55%" src="../images/jupyter_kernel.png">
+
+          <p><code>Interrupt</code> is useful for breaking out of long running code executations</p>
+          <p><code>Restart and run all</code> is useful for rerunning with a fresh state, so that you are sure that the results are not dependent on invisible old variable values.</p>
+
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Jupyter notebooks - Exercise</h3>
+
+          <ol>
+            <li>Start a new jupyter notebook</li>
+            <li>Create a cell with the code <code>print("Hello, World!")</code> and execute it</li>
+            <li>Add a Markdown cell above your code, and add the following title: <code>I'm coding Python!</code></li>
+          </ol>
+
+        </section>
+
+        <section style="text-align:center">
+
+          <h2>Variables and types: <br> numeric and boolean</h2>
+
+        </section>
+
+        <section>
+          <h3>Before we start: Comments</h3>
+          <p>Comments are notes left by the programmer that explain the code.</p>
+          <p>Comments begin with the # character and continue to the end of the line.</p>
+          <pre><code class="python" data-trim># square of the average of all prime numbers between 0 and 10
+((2+3+5+7)/4.0)**2
+      </code></pre>
+
+<!--          <p class="fragment" style="font-weight:bold;">In this course, we expect you to hand-in well-documented code. This means that non-trivial lines should have comments.</p>-->
+        </section>
+
+        <section>
+          <h3>Variables</h3>
+          <p>Variables are labels that we assign to objects in memory.</p>
+          <p>Create an integer object and label it as 'a':</p>
+          <pre><code class="python" data-trim>a = 2
+          </code></pre>
+          <span class="fragment">
+          <p>Refer to that memory location:</p>
+          <pre><code class="python" data-trim>print(a)
+print(a * 2)
+          </code></pre>
+          <pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>2
+4
+          </code></pre></span>
+        </section>
+
+        <section>
+          <h3>Variables (2)</h3>
+          <p>In Python, variables do not need to be declared before being assigned a value.</p>
+          <p>When variables are assigned a new value, the label just starts referring to the new object.</p>
+          <pre><code class="python" data-trim>a = 2
+a = "hello"
+print(a)
+          </code></pre>
+          <pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>hello
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Variables (3)</h3>
+          <p>Name your variables responsibly!</p>
+          <p>If you are using a well known formula, let's say x = a + b, then you can use 'a' and 'b' as names. Otherwise, be more descriptive:</p>
+          <pre><code class="python" data-trim>drink_limit = 4
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h3>Types - Numeric</h3>
+          <p>Three types of numbers:
+          <li>Integer    - 42</li>
+          <li>Float      - 42.0</li>
+          <li>Complex    - 42.0+3.0j</li>
+          </p>
+        </section>
+
+        <section>
+          <h3>Python arithmetic operators</h3>
+          <p>Python supports the following arithmetic operators:</p>
+          <p>
+          <table>
+            <tr><td>+</td><td>addition</td> <td style="width:3em;"></td><td>//</td><td>integer division</td></tr>
+            <tr><td>-</td><td>subtraction</td> <td></td><td>%</td><td>modulo (remainder of division)</td></tr>
+            <tr><td>*</td><td>multiplication</td> <td></td><td>**</td><td>exponentiation</td></tr>
+            <tr><td>/</td><td>division</td><td></td><td>-</td><td>negative (unary)</td></tr>
+          </table>
+          </p>
+        </section>
+
+<!--        <section>-->
+<!--          <h3>Python2 note: division can be tricky</h3>-->
+<!--          <p>NOTE: In Python2, the <code>/</code> operator acts as integer division if both operands are integers. If you want normal division, cast one of them as a real number: <pre><code class="python" data-trim>-->
+<!--print(7/2)           # python2: integer division. python3: no problem-->
+<!--print(7/2.0)         # normal division-->
+<!--print(7/float(2))-->
+<!--            </code></pre>-->
+<!--          <pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>3    # In python2-->
+<!--3.5-->
+<!--3.5-->
+<!--          </code></pre>-->
+<!--          <p>This is NOT a problem in python3</p>-->
+<!--        </section>-->
+
+        <section>
+          <h3>Types - Numeric - comparisons</h3>
+          <p> We can compare two numeric values</p>
+          <pre><code class="python" data-trim>x = 3
+y = 4
+print(x < y)
+print(x > y)
+print(x == y)
+          </code></pre>
+          <pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>True
+False
+False
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Types - Numeric - assignment operators</h3>
+          <p>We can perform an operation on a variable and assign the result back to the same variable</p>
+          <p>The assignment operators are based on the basic arithmetic operators:</p>
+          <pre><code class="python" data-trim>x = 4
+x += 1   # same as x = x+1
+x -= 2   # same as x = x-2
+x *= 3   # same as x = x*3
+x //= 2  # same as x = x//2
+x **= 2  # same as x = x**2
+x %= 5   # same as x = x%5
+          </code></pre>
+
+          <!--          <p class="fragment">What is x at the end of this sequence of statements?</p>-->
+        </section>
+
+        <section>
+          <h3>Types - Boolean</h3>
+          <p>Can take the values of True and False</p>
+          <p>Operations: 'and', 'or', 'not'</p>
+          <div style="width:50%;float:left;">
+            <pre><code class="python">x = 1
+print((x &gt; 0) and (x &lt; 10))
+print((x &gt; 0) or (x &lt; 10))
+print((x &gt; 0) and (x &gt; 10))
+</code></pre>
+            <pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>True
+True
+False</code></pre>
+          </div>
+          <div style="width:50%;float:right;">
+            <pre><code class="python" data-noescape>
+True and True   # -> True
+True or True    # -> True
+<span class="fragment" data-fragment-index=2>True and False  # -> False</span></code></pre>
+          </div>
+
+          <div style="clear:both;"></div>
+
+          <p class="fragment"  data-fragment-index=1>Note that the two columns are equivalent (for x=1). What would
+            be the right-column equivalent for the third case?</p>
+
+        </section>
+
+        <section style="font-size:85%">
+          <h3>Numeric and Boolean types - exercise</h3>
+          <p>
+          <ol>
+            <li>I want to calculate the average of 4 and 6. What's wrong with the following expression:
+              <pre><code class="python">4+6 / 2</code></pre>
+            </li>
+            <li>What is x after executing these lines (try without Python first):
+              <pre><code class="python" data-trim>x = 4
+x += 1
+x -= 2
+x *= 3
+x //= 2
+x **= 2
+x %= 5
+print(x)
+          </code></pre></li>
+            <li>This expression is equivalent to one of the expressions on the previous slide. Which one?
+              <pre><code class="python">(not (not (x > 0) or not (x < 10)))</code></pre>
+            </li>
+          </ol>
+          </p>
+        </section>
+
+        <section class="solution" style="font-size:90%">
+          <h3>Types - Numeric - Solution</h3>
+
+          <ol style="width:100%">
+            <li><pre><code class="python">(4+6) / 2   # operator precedence: / binds stronger than +.</code></pre></li>
+            <li><pre><code class="python" data-trim data-noescape>
+x = 4                          # 4
+x += 1  <span class="fragment"># same as x = x+1      # 5</span>
+x -= 2  <span class="fragment"># same as x = x-2      # 3</span>
+x *= 3  <span class="fragment"># same as x = x*3      # 9</span>
+x //= 2 <span class="fragment"># same as x = x/2      # 4</span>
+x **= 2 <span class="fragment"># same as x = x**2     # 16</span>
+x %= 5  <span class="fragment"># same as x = x%5      # 1</span>
+print(x)
+          </code></pre>
+            </li>
+            <li><pre><code class="python">(not (not (x > 0) or not (x < 10)))
+(not ((x <= 0) or (x >= 10)))
+(x > 0 and x < 10)</code></pre></li>
+          </ol>
+        </section>
+
+        <section style="text-align:center">
+
+          <h2>Strings</h2>
+
+        </section>
+
+        <section>
+          <h3>Types - Strings</h3>
+          <p>A string is a sequence of characters. It is specified using either:</p>
+          <ul>
+            <li>single quotes (')</li>
+            <li>double quotes(")</li>
+            <li>triple quotes(''' or """).</li>
+          </ul>
+          <p>The first two are exactly the same, while the last one is for strings spanning
+            several lines:</p>
+          <pre><code class="python" data-trim>
+str1 = "Hello"
+str2 = 'Hello'
+str3 = '''Hello,
+World!'''</code></pre>
+        </section>
+
+        <section>
+          <h3>Types - Strings - operators</h3>
+          <p>Operators for strings work a little differently</p>
+
+          <table>
+            <tr><td>+</td><td>concatenation</td></tr>
+            <tr><td>*</td><td>repetition</td></tr>
+            <!-- <tr><td>==</td><td>test for equality</td> -->
+            <tr><td>in</td><td>test if an element occurs in the string</td></tr>
+            <tr><td>[]</td><td>extract character from string (indexing)</td></tr>
+          </table>
+
+          <pre><code class="python" data-trim>
+str1 = "Linux"
+str2 = 'Python'
+print(str1 + str2)
+print(str1 * 10)
+print('ux' in str1)</code></pre>
+          <pre><code class="python" data-trim data-noescape><div class="label">output</div>'LinuxPython'
+'LinuxLinuxLinuxLinuxLinuxLinuxLinuxLinuxLinuxLinux'
+True
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Types - Strings - comparisons</h3>
+          <p>Comparisons from strings are done based on how they would appear in a phone book (lexicographically):</p>
+          <table>
+            <tr><td>&gt;</td><td>after</td></tr>
+            <tr><td>&gt;=</td><td>after or equal</td></tr>
+            <tr><td>&lt;</td><td>before</td></tr>
+            <tr><td>&lt;=</td><td>before or equal</td></tr>
+          </table>
+          <pre><code class="python" data-trim>
+              print("hell" &lt; "hello")</code></pre>
+          <pre><code class="python" data-trim data-noescape><div class="label">output</div>True</code></pre>
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Types - Strings - special characters</h3>
+          <p>A string can contain combinations of characters that have a special meaning.</p>
+          <p>They start with the backslash character - \</p>
+          <!-- <p>Some important examples:</p> -->
+          <div style="width:50%;float:left;">
+            <table>
+              <tr><td>\n</td><td>new line</td></tr>
+              <tr><td>\t</td><td>tab</td></tr>
+              <tr><td>\'</td><td>single quote</td></tr>
+              <tr><td>\"</td><td>double quote</td></tr> <!-- \" -->
+              <tr><td>\\</td><td>backslash</td></tr>
+            </table>
+          </div>
+          <div style="width:50%;float:right;">
+            <pre><code class="python" data-trim>print("1\t2\n3")</code></pre>
+            <pre><code class="python" data-trim data-noescape><div class="label">output</div>1	2
+3
+            </code></pre>
+          </div>
+          <!-- <div style="clear:both;";> -->
+          <!--   <p style="position:relative;top:1em" class="fragment">Note that this formatting only appears when explicitly printing a string. When evaluating it in the Python console it will print the raw formatting characters.</p> -->
+        </section>
+
+        <section>
+          <h3>Converting things to string</h3>
+          <p>Often, you will want to convert values of different types to string &mdash; for instance when printing them to screen.</p>
+
+          <span class="fragment">
+            <p>This can be done using:</p>
+            <pre><code class="python" data-trim data-noescape>str(<em>value</em>)</code></pre>
+          </span>
+
+          <span class="fragment">
+            <p>Example:</p>
+            <pre><code class="python" data-trim data-noescape>
+number_of_apples = 6
+print("I have " + str(number_of_apples) + " apples.")
+            </code></pre>
+            <pre><code class="python" data-trim data-noescape><div class="label">output</div>I have 6 apples.
+            </code></pre>
+          </span>
+
+        </section>
+
+        <!--         <section> -->
+        <!--           <h3>Types - Strings - formatting</h3> -->
+        <!--           <p>You can insert values at certain places in a string using <i>string formatting</i>.</p> -->
+        <!--           <p>Two ways of string formatting in Python:</p> -->
+        <!--           <ul> -->
+        <!--             <li>old way - operator %</li> -->
+        <!--             <li>new way - str.format()</li> -->
+        <!--           </ul> -->
+        <!--           <p>We will briefly look at the former.</p> -->
+        <!--           <pre><code class="python" data-trim>&gt;&gt;&gt; "The result is %s" % "green" -->
+        <!-- 'The result is green' -->
+        <!--           </code></pre> -->
+        <!--           <p>%s is called a conversion specifier. Most commonly used:</p> -->
+        <!--           <p> -->
+        <!--             <center> -->
+        <!--               <table> -->
+        <!--                 <tr><tr><td>%d for integer</td><td></td><td>%f for float</td><td></td><td>%s for string</td></tr> -->
+        <!--               </table> -->
+        <!--             </center> -->
+        <!--           </p> -->
+        <!--         </section> -->
+
+        <!--         <section> -->
+        <!--           <h3>Types - Strings - formatting</h3> -->
+        <!--           <p>The values that you want to insert should be specified after the string:</p> -->
+        <!--           <pre><code class="python" data-trim>&gt;&gt;&gt; "%d, %f and %s" % (1, 1, "one") -->
+        <!-- ’1, 1.000000 and one’ -->
+        <!--           </code></pre> -->
+        <!--           <p>In most cases, you can just use the conversion specifier %s</p> -->
+        <!--         </section> -->
+
+        <section>
+          <h3>Types - Strings - exercise 1</h3>
+          <p>
+          <ol>
+            <li>Create three variables. One called <code>firstname</code> with your first name, one
+              called <code>lastname</code> with your last name and one called <code>age</code> with your age.</li>
+            <li>Merge these strings into one string. When the string is printed to the screen, the output should look like:</li>
+
+            <pre><code class="python" data-trim data-noescape>Name: <em>myfirstname</em> <em>mylastname</em>
+Age: <em>age</em>
+              </code></pre>
+            </p>
+        </section>
+
+        <section class="solution">
+          <h3>Types - Strings - exercise 1 - solution</h3>
+          <p>
+          <ul>
+            <li>Create three variables. One called firstname with your first name, one
+              called lastname with your last name and one called age with your age.</li>
+            <pre class="fragment"><code class="python" data-trim>firstname = "Barack"
+lastname = "Obama"
+age = 61
+              </code></pre>
+            <li>Merge these strings into one string</li>
+            <span class="fragment"><pre><code class="python" data-trim>
+print("Name: " + firstname + " " + lastname + "\nAge: " + str(age))</code></pre>
+<pre><code class="python" data-trim data-noescape><div class="label">output</div>Name: Barack Obama
+Age: 61</code></pre></span>
+          </ul>
+          </p>
+        </section>
+
+
+        <section style="text-align:center">
+          <h2>Conditionals</h2>
+          <h2 class="fragment">(also sometimes called "branching")</h2>
+        </section>
+
+        <section>
+          <h3>Branching - the if statement</h3>
+          <p>The if statement is used to place a condition on a part of your code:</p>
+          <pre><code class="python" data-trim data-noescape>if <em>condition</em>:
+    code block
+          </pre></code>
+          <p>Example:</p>
+          <pre class="twocols60"><code class="python" data-trim data-noescape>if 2 &lt; 5:
+    print("Two is smaller than five")
+          </code></pre>
+          <pre class="twocols40"><code class="nohighlight" data-trim data-noescape><div class="label">output</div>
+
+Two is smaller than five
+          </pre></code>
+
+          <p class="fragment">Note: This is the first (of many) examples where indentation is important to Python.</p>
+        </section>
+
+        <section>
+          <h3>Branching - boolean expressions</h3>
+          <p><code>2 &lt; 5</code> is a very simple truth expression. More complex expressions can
+            be created using the boolean operators <b>and</b>, <b>or</b> and <b>not</b>:</p>
+          <pre><code class="python" data-trim>if x &gt;= 30 and x &lt;= 60:
+    print("value is within range")
+
+if x < 30 or x > 60:
+    print("value is out of range")
+
+if age > 70 and not profession == 'president':
+    retired=True
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h3>Branching - the if-else statement</h3>
+          <p>Often you will want to execute one piece of code when a condition is true,
+            and another if is is false. This is done using the <code>if-else</code> statement:</p>
+          <pre><code class="python" data-trim data-noescape>if <em>condition</em>:
+    <em>code block</em>
+else:
+    <em>alternative code block</em>
+          </pre></code>
+          <div class="twocols60"><pre ><code class="python" data-trim data-noescape>if 2 &lt; 5:
+    print("Two is smaller than five")
+else:
+    print("Two is larger than five")
+          </code></pre></div>
+          <div class="twocols40"><pre ><code class="nohighlight" data-trim data-noescape><div class="label">output</div>
+
+
+
+Two is smaller than five
+          </pre></div></code>
+
+          <p class="fragment">Note that <code>if</code> and <code>else</code> must have the same indentation.</p>
+
+
+        </section>
+
+        <section>
+          <h3>Branching - the if-elif-else statement</h3>
+          <p>If you have several mutually exclusive conditions that you want to test for one
+            at a time you can use the general <em>if-elif-else</em> version of the if statement:</p>
+          <pre><code class="python" data-trim data-noescape>if <em>condition1</em>:
+    <em>code block1</em>
+elif <em>condition2</em>:
+    <em>code block2</em>
+elif <em>condition3</em>:
+    <em>code block3</em>
+.
+.
+else:
+    <em>code block</em>
+          </pre></code>
+        </section>
+
+        <section>
+          <h3>Branching - the if-elif-else statement - example</h3>
+          <p>Simulate a coin toss using a random number generator (RNG). We will import the module <b>random</b>, which implements an RNG:</p>
+          <div class="twocols90"><pre><code class="python" data-trim data-noescape>import random          <span class="fragment"># (explained next week)</span>
+x = random.random()   <span class="fragment"> # Random number between 0 and 1</span>
+if x &gt;= 0 and x &lt; 0.5:    <span class="fragment"> # Is x smaller than 0.5?</span>
+    print("Heads")
+elif x &gt;= 0.5 and x &lt; 1.0:<span class="fragment"> # Otherwise, is x larger than 0.5?</span>
+    print("Tails")
+else:
+    print("Number not a probability")
+          </code></pre></div>
+          <div class="twocols10"><pre><code class="python" data-trim data-noescape><div class="label">output</div>
+Heads
+          </code></pre></div>
+
+          <div style="clear:both"/>
+          <p class="fragment">Can we simplify this example?</p>
+        </section>
+
+        <section>
+          <h3>Branching - the if-elif-else statement - example - simpler version</h3>
+
+          <p>Original</p>
+          <pre ><code class="python" data-trim data-noescape>import random
+x = random.random()
+if x &gt;= 0 and x &lt; 0.5:
+    print("Heads")
+elif x &gt;= 0.5 and x &lt; 1.0:
+    print("Tails")
+else:
+    print("Number not a probability")
+          </code></pre>
+
+          <span class="fragment">
+          <p>Simplified</p>
+
+          <pre><code class="python" data-trim data-noescape>import random
+x = random.random()   <span class="fragment"> # Random number between 0 and 1</span>
+if x &lt; 0.5:           <span class="fragment"> # Is x smaller than 0.5?</span>
+    print("Heads")
+else:                 <span class="fragment"> # Otherwise, x must be larger than 0.5</span>
+    print("Tails")
+          </code></pre>
+        </span>
+        </section>
+
+        <!--        <section>-->
+        <!--          <h3>Branching - exercise 1</h3>-->
+
+        <!--          &lt;!&ndash; <p>Please solve the following two exercises as separate files (i.e., not the &ndash;&gt;-->
+        <!--          &lt;!&ndash;   Python console)</p> &ndash;&gt;-->
+
+        <!--          <ol>-->
+        <!--            <li>Use the random number generator from the last slide to generate a-->
+        <!--              random number between 0 and 1, and use this number to simulate-->
+        <!--              throwing a die.</li>-->
+        <!--            &lt;!&ndash; <li>Write a program that takes two numbers as input from the user using &ndash;&gt;-->
+        <!--            &lt;!&ndash;   the <code>input</code> function (<code>raw_input</code> in Python2). Make the program print out either “The first number is larger”, “The &ndash;&gt;-->
+        <!--            &lt;!&ndash;   second number is larger” or “The numbers are equal”, depending on &ndash;&gt;-->
+        <!--            &lt;!&ndash;   what is true.</li> &ndash;&gt;-->
+        <!--          </ol>-->
+        <!--        </section>-->
+
+
+
+        <!--         <section class="solution"> -->
+        <!--           <h3>Branching - exercise 1 - solution</h3> -->
+        <!--           <ol start="2"> -->
+        <!--             <li>Write a program that takes two numbers as input from the user using -->
+        <!--               the <code>input</code> function (<code>raw_input</code> in Python2). Make the program print out either “The first number is larger”, “The -->
+        <!--               second number is larger” or “The numbers are equal”, depending on -->
+        <!--               what is true.</li> -->
+        <!--             <pre class="fragment"><code class="python" data-trim>n1 = int(input('Enter an integer --&gt; ')) -->
+        <!-- n2 = int(input('Enter an integer --&gt; ')) -->
+        <!-- if n1 &gt; n2: -->
+        <!--     print('The first number is larger') -->
+        <!-- elif n1 &lt; n2: -->
+        <!--     print('The second number is larger') -->
+        <!-- else: -->
+        <!--     print('The numbers are equal') -->
+        <!--           </pre></code> -->
+        <!--           </ol> -->
+        <!--         </section> -->
+
+        <section>
+          <h3>Branches can be nested</h3>
+          <pre><code class="python" data-trim data-noescape>if <em>condition1</em>:
+    if <em>condition2</em>:
+        <em>code block2</em>
+    elif <em>condition3</em>:
+        <em>code block3</em>
+    else:
+        <em>code block4</em>
+          </code></pre>
+
+          <p>Example:</p>
+          <pre><code class="python" data-trim>
+if x&gt;0
+    if y&gt;0:
+        print("upper right quadrant")
+    else:
+        print("lower right quadrant")
+else:
+    if y&gt;0:
+        print("upper left quadrant")
+    else:
+        print("lower left quadrant")
+          </code></pre>
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Branching - exercise</h3>
+          <ol>
+            <li>Use the random number generator from one of the previous slides to generate a
+              random number between 0 and 1, and use this number to simulate
+              throwing a die.</li>
+            <!--            <li>Rides at amusement parks have height restrictions. We need to check if the user can go on a specific ride. The-->
+            <!--              minimum height to get on the ride is 120cm, but somebody-->
+            <!--              shorter than 130cm has to be accompanied by an adult.-->
+            <!--              First, create a variable <code>height</code> and set it to an arbitrary value. Now write a program that display an appropriate message based on-->
+            <!--              the value of this height variable. <b>Use nested-->
+            <!--                branches.</b></li>-->
+            <!--            <li>Same as previous exercise, but now using if-elif-else statement instead of nested branches</li>-->
+          </ol>
+        </section>
+
+        <section class="solution" style="font-size:90%">
+          <h3>Branching - exercise - solution (1)</h3>
+          <ol>
+            <li>Use the random number generator from one of the previous slides to generate a
+              random number between 0 and 1, and use this number to simulate
+              throwing a die.</li>
+            <div style="width:50%;float:left;">
+            <pre class="fragment"><code class="python" data-trim>import random
+# We start by multiplying with six
+# so that our random number is
+# between zero and six
+x = random.random() * 6
+if x < 1:
+    print(1)
+elif x < 2:
+    print(2)
+elif x < 3:
+    print(3)
+elif x < 4:
+    print(4)
+elif x < 5:
+    print(5)
+else:
+    print(6)
+            </code></pre>
+            </div>
+<!--            <div class="fragment" style="margin-top:3em;width:50%;float:right;">-->
+<!--              <p>A more clever way to do this:</p>-->
+<!--              <pre><code class="python" data-trim>import random-->
+<!--x = random.random()-->
+<!--print(int(x * 6 + 1))-->
+<!--              </code></pre>-->
+<!--            </div>-->
+          </ol>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="../hide_before_week_day_time.js"></script>
+    <script>
+       var hideSolutions = false;
+       if(hideSolutions)
+          hideBeforeWeekDayTime(document, 40, 'mon', 12)
+    </script>
+
+    <script src="../reveal.js-4.3.1/dist/reveal.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/zoom/zoom.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/notes/notes.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/search/search.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/math/math.js"></script>
+
+    <script>
+
+       // Full list of configuration options available here:
+       // https://github.com/hakimel/reveal.js#configuration
+       Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+          transitionSpeed: 'fast',
+          touch: true,
+          keyboard: true,
+
+          slideNumber: true,
+
+          minScale: 0.1,
+          maxScale: 5.0,
+
+          transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+          plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath ]
+       });
+
+    </script>
+
+  </body>
+</html>

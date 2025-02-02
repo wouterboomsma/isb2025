@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Integrative Structural Biology - Python intro</title>
+
+    <meta name="description" content="Slides for the Integrative Structural Biology course">
+    <meta name="author" content="Wouter Boomsma">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal.js-4.3.1/dist/theme/white-helv.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js-4.3.1/plugin/highlight/googlecode.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      	var link = document.createElement( 'link' );
+      	link.rel = 'stylesheet';
+      	link.type = 'text/css';
+      	link.href = '../reveal.js-4.3.1/css/print/pdf.css';
+      	document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <style>
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal a {
+        color:DarkSlateBlue;
+      }
+      .reveal dt {
+        margin-top:0.5em;
+      }
+      .reveal section img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal a img {
+        border: 1px solid lightgrey;
+        box-shadow: none;
+      }      
+      .reveal img.noborder {
+        border: none;
+        box-shadow: none;
+      }      
+      .reveal pre {
+        width: 97.5%;
+      }      
+      .reveal code .label {
+        background:#E8E8E8;
+        color:grey;
+        padding:4px;
+        height:1em;
+        position:absolute;
+        right:0px;
+        top:0px;
+      }
+      .reveal .twocols50 {
+        width:47%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols30 {
+        width:27%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols70 {
+        width:67%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols20 {
+        width:17%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols80 {
+        width:77%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols40 {
+        width:37%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal .twocols60 {
+        width:57%;
+        float:left;
+        margin:1.5%;
+      }
+      .reveal section div.container{
+          display: flex;
+      }
+      .reveal section div.container div{
+          flex: 1;
+      }
+      .reveal dt.spaced {
+          margin-top:0.5em;
+      }
+
+    </style>
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+      
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+
+        <section>
+          <br/>
+          <h1>Integrative Structural Biology</h1>
+          <h4>Module 2B - Python Programming </h4>
+          <div style="text-align:left; font-size:100%; border:1px solid lightgrey; background-color: #fafafa; padding:0.5em; display:inline-block; margin-top:0em">
+
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Sequential types</h4>
+            <ul>
+              <li>Lists</li>
+              <li>A bit more on strings</li>
+            </ul>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Loops</h4>
+            <h4 style="margin-bottom: 0.2em; margin-top:0.5em">Reading/Writing to files</h4>
+            <!--            <dl class="list" style="width:100%; ">-->
+            <!--              <dt style="margin-top:0"></dt>-->
+            <!--            </dl>-->
+
+          </div>
+        </section>
+
+
+
+
+<!--        <section>-->
+<!--          <h3>Types: Strings &mdash; exercise 2</h3>-->
+<!--          <p>-->
+<!--          <ol>-->
+<!--            <li>Create a variable containing a DNA sequence (e.g. AAGCAGAATGCTTAGGACTAGTTAC).</li>-->
+<!--            <li>Turn it into a RNA sequence (’T’ → ’U’).</li>-->
+<!--            <li>Print out the letter in the middle of the sequence.</li>-->
+<!--            &lt;!&ndash; <li>Bonus exercise: Using slicing there is a way to reverse the string. Try to reverse your sequence.</li> &ndash;&gt;-->
+<!--          </ol>-->
+<!--          </p>-->
+<!--        </section>-->
+
+<!--        <section class="solution">-->
+<!--          <h3>Types: Strings &mdash; exercise 2 &mdash; solution</h3>-->
+<!--          <ol>-->
+<!--            <li>Create a variable containing a DNA sequence (e.g. AAGCAGAATGCTTAGGACTAGTTAC).</li>-->
+<!--            <pre class="fragment"><code class="python" data-trim>dna_seq = 'AAGCAGAATGCTTAGGACTAGTTAC'</code></pre>-->
+<!--            <li>Turn it into a RNA sequence (’T’ → ’U’).</li>-->
+<!--            <span class="fragment">-->
+<!--            <pre class="twocols60"><code class="python" data-trim>-->
+<!--rna_seq = dna_seq.replace('T', 'U')-->
+<!--print(rna_seq)</code></pre><pre class="twocols40"><code class="python" data-trim data-noescape><div class="label">output</div>-->
+<!--AAGCAGAAUGCUUAGGACUAGUUAC-->
+<!--            </code></pre></span><div style="clear:both">-->
+<!--            <li>Print out the letter in the middle of the sequence.</li>-->
+<!--            <span class="fragment">-->
+<!--            <pre class="twocols70"><code class="python" data-trim>-->
+<!--print(rna_seq[len(rna_seq)/2])</code></pre>-->
+<!--            <pre class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>U-->
+<!--            </code></pre></span>-->
+<!--          </ol>-->
+<!--        </section>-->
+
+        <!--         <section class="solution"> -->
+        <!--           <h3>Types: Strings &mdash; exercise &mdash; solution (2)</h3> -->
+        <!--           <ol start="4"> -->
+        <!--             <li>Bonus exercise: Using slicing there is a way to reverse the string. Try to reverse your sequence.</li> -->
+        <!--             <pre class="fragment"><code class="python" data-trim>               -->
+        <!-- &gt;&gt;&gt; rna_seq[::-1] -->
+        <!-- 'ACAUUGAUCAGGAUUCGUAAGACGAA' -->
+        <!--             </code></pre> -->
+        <!--           </p> -->
+        <!--         </section> -->
+
+
+
+        <section class="solution">
+          <h3>Recap: datatypes &mdash; a popquiz</h3>
+          <ul>
+            <li>How many different numeric types are there in Python?</li>
+            <li>What are booleans used for?</li>
+            <li>How do you create an empty string?</li>
+            <li>What does "\n" mean?</li>
+            <li>What does the <code>*</code> do for strings?</li>
+            <li>Can you add a string to a number?</li>
+<!--            <li>How do you find the length of a string?</li>-->
+<!--            <li>How do you extract a substring from a string?</li>-->
+<!--            <li>What is the difference between a function and a method?</li>-->
+<!--            <li>What does the <code>strip</code> string-method do?</li>-->
+            <!-- <li>How do you find the length of a list?</li> -->
+            <!-- <li>What is the "opposite" of the <code>split</code> string method?</li> -->
+            <!-- <li>How do you find help about a function?</li> -->
+          </ul>
+        </section>
+
+
+        <section style="text-align:center">
+          <h2>Lists</h2>
+        </section>
+
+        <section>
+          <h3>Types: Lists</h3>
+          <p>Lists are a <i>collection</i> type. They allow you to gather several
+            values and manipulate them as one.</p>
+
+          <p>Lists are ordered collections of items, accessible by an index.</p>
+          <ul>
+            <li>lines from a file</li>
+            <li>multiple sequence alignment</li>
+            <li>results from a series of experiments</li>
+            <li>...</li>
+          </ul>
+          <p>A list is created using square brackets:</p>
+          <pre style="max-width:none; width:97.5%"><code class="python" data-trim>l = [1, 2.0, "three", 4]    # Lists can contain values of different types
+l = [1,2,3,4,5,6]
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Types: Lists &mdash; indexing</h3>
+          <p>You can index in lists using square brackets:</p>
+          <pre><code data-noescape><em>listname</em>[n]</code></pre>
+          <p>this will return the n+1’th element in the list. </p>
+          <pre><code class="python" data-trim>my_list = ['a', 'b', 'c']
+print(my_list[1])</code></pre>
+          <pre><code class="python" data-trim data-noescape><div class="label">output</div>’b’</code></pre>
+          </code></pre>
+          <p><b>Note: sequences types in
+            python are zero indexed. The first element has index 0.</b></p>
+          <span class="fragment">
+          <p>Use a negative index to count from the end of the list:</p>
+          <pre><code class="python" data-trim>print(my_list[-1])       # will print 'c'</code></pre>
+            </code></pre></span>
+        </section>
+
+        <section style="font-size:95%">
+          <h3>Indexing: lists vs strings</h3>
+          <p>Lists and strings are both <i>sequence types</i>, and have similar properties. Indexing in strings works exactly as for lists:</p>
+          <pre class="twocols70"><code class="python" data-trim data-noescape>my_str = "hello"
+print(my_str[2])</code></pre><pre class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>
+'l'
+</code></pre>
+          &nbsp;
+          <span class="fragment">
+          <p>One difference is that in lists, you can <i>assign</i> to an index:</p>
+          <pre class="twocols70"><code class="python" data-trim data-noescape>my_list = ['a', 'b', 'c']
+my_list[2] = 'd'
+print(my_list)</code></pre><pre class="twocols30"><code class="python" data-trim data-noescape><div class="label">output</div>
+
+['a', 'b', 'd']
+          </code></pre></span>
+          <p class="fragment">You cannot do this to strings (they are <em>immutable</em>).</p>
+        </section>
+
+        <section style="font-size:95%">
+          <h3>Types: Strings &amp; lists: slicing</h3>
+          <p>Remember: Lists and strings are both <i>sequence</i> types</p>
+
+          <p>Sequence types support <i>slicing</i> to extract subsequences:</p>
+          <pre><code data-noescape data-trim><em>sequence</em>[m:n]</code></pre>
+          <p>This returns a sequence with the elements from index m up to n-1. <span style="color:red">(note: endpoint not included)</span></p>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape>s = "hello"
+print(s[1:4])
+          </code></pre>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape><div class="label">output</div>
+'ell'
+          </code></pre>
+          <span class="fragment">
+          <p>Optionally, you can provide a third argument to a slice, specifying a
+            step-size:</p>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape>print(s[1:5:3])</code></pre><pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape><div class="label">output</div>'eo'
+          </code></pre></span>
+        </section>
+
+        <section>
+          <h3>Types: Strings &amp; lists: slicing (2)</h3>
+          <p>Range parameters can be omitted, indicating that everything in that direction should be included:</p>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape>s = "hello"
+print(s[:4])
+print(s[1:])
+print(s[:])
+          </code></pre>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape><div class="label">output</div>
+'hell'
+'ello'
+'hello'
+          </code></pre>
+          <span class="fragment">
+            <p>And for lists:</p>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape>l = [1,2,3,4,5]
+print(l[:4])
+print(l[1:])
+print(l[:])
+          </code></pre>
+          <pre style="margin-top:0;" class="twocols50"><code class="python" data-trim data-noescape><div class="label">output</div>
+[1,2,3,4]
+[2,3,4,5]
+[1,2,3,4,5]
+          </code></pre>
+          </span>
+        </section>
+
+        <section>
+          <h3>Types: Lists &mdash; operators</h3>
+          <p>Lists have exactly the same operators as strings:</p>
+          <pre><code>+, +=, *, *=, [], ==, !=, <, <=, >, >=, in</code></pre>
+          Examples:
+          <div style="clear:both"/>
+          <pre class="twocols50"><code class="python" data-trim data-noescape>l = [1,2,3,4]
+print(l + [5,6])
+l += [5,6]
+print(l)
+print(3 in l)
+print(l &gt; [5,6])
+print([5,6] * 3)
+          </code></pre>
+          <pre class="twocols50"><code class="python" data-trim data-noescape><div class="label">output</div>
+[1, 2, 3, 4, 5, 6]
+
+[1, 2, 3, 4, 5, 6]
+True
+False
+[5, 6, 5, 6, 5, 6]
+            </code></pre>
+        </section>
+
+        <section>
+          <h3>Data types have associated functionality</h3>
+
+          <p>Each type has its own functionality.</p>
+
+          <p>For instance, it would be convenient if:</p>
+          <ul>
+            <li>strings had functionality that turns letters in string into capital letters</li>
+            <li>lists had functionality that adds an element to the end of a list.</li>
+          </ul>
+
+          <p>How is this done in Python? To explain this, I must briefly introduce the concepts of function and method.</p>
+
+<!--          <p class="fragment">We'll cover this in much more detail later in the course.</p>-->
+
+        </section>
+
+        <section style="font-size:90%">
+          <h3>Interlude: functions and methods</h3>
+          <p>A <i>function</i> is a piece of code that has a name, and can be <i>called</i> from
+            anywhere in the program as:</p>
+          <pre><code data-trim data-noescape><em>functionname</em>(<em>argument-list</em>)
+          </code></pre>
+          <p>Example:</p>
+          <pre style="margin-top:0;width:70%; float:left"><code class="python" data-trim>
+len(’hello’) # function taking 1 argument
+          </code></pre><pre style="margin-top:0; margin-left:10%; width:20%; float:left"><code class="python" data-trim data-noescape><div class="label">output</div>5</code></pre>
+
+          <span class="fragment">
+            <p>A <i>method</i> is similar to a function, but it belongs to an <i>object</i>:</p>
+<!--            It is called like this:</p>-->
+          <pre><code data-trim data-noescape><em>object</em>.<em>methodname</em>(<em>argument-list</em>)
+          </code></pre>
+            <!-- <p>Example:</p> -->
+          <pre class="twocols80" style="margin-top:0;"><code class="python" data-trim>
+l = ’hello’
+print(l.replace(’llo’, ’y’)) # method taking 2 arguments
+          </code></pre>
+          <pre class="twocols20" style="margin-top:0; "><code class="python" data-trim data-noescape><div class="label">output</div>’hey’</code></pre></span>
+
+          <div style="clear:both"></div>
+          <!-- <p class="fragment">We'll cover both concepts in detail later in the course</p> -->
+          <p class="fragment">Note how methods make it easy to control which objects have which functionality: different types have different methods.</p>
+
+        </section>
+
+        <section style="font-size:90%">
+          <h3>String methods</h3>
+          <p>Commonly used string methods:</p>
+          <div class="container">
+            <div>
+              <table style="font-size:60%;">
+                <tr><td><code>capitalize</code></td><td>capitalize string</td></tr>
+                <tr><td><code>lstrip</code></td><td>removing leading whitespace</td></tr>
+                <tr><td><code>center</code></td><td>center justify</td></tr>
+                <tr><td><code>replace</code></td><td>replace substring</td></tr>
+                <tr><td><code>count</code></td><td>count substring occurrences</td></tr>
+                <tr><td><code>rjust</code></td><td>right justify</td></tr>
+                <tr><td><code>find</code></td><td>find index of substring</td></tr>
+              </table>
+
+            </div>
+            <div>
+              <table style="font-size:60%;">
+                <tr><td><code>rstrip</code></td><td>Remove traling whitespace</td></tr>
+                <tr><td><code>join</code></td><td>join list of strings</td></tr>
+                <tr><td><code>split</code></td><td>split into list of smaller strings</td></tr>
+                <tr><td><code>ljust</code></td><td>left justify</td></tr>
+                <tr><td><code>strip</code></td><td><code>lstrip</code> and <code>rstrip</code></td></tr>
+                <tr><td><code>lower</code></td><td>convert to lowercase</td></tr>
+                <tr><td><code>upper</code></td><td>convert to uppercase</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <p style="margin-top:1em; margin-bottom:0">Examples:</p>
+          <pre class="twocols50"><code class="python" data-trim>s = ’hello’
+print(s.upper())
+print(’hello’.find(’ll’))
+print(’hello’.replace(’ll’, ’ct’))
+print(’one two three’.split(’ ’))
+          </code></pre>
+          <pre class="twocols50"><code class="python" data-trim data-noescape><div class="label">output</div>
+’HELLO’
+2
+’hecto’
+[’one’, ’two’, ’three’]
+# we'll use this one a lot!
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h3>List methods</h3>
+          <p>Commonly used list methods:</p>
+          <table style="font-size:60%;">
+            <tr><td><code>append</code></td><td>add element to the end of a list</td></tr>
+            <tr><td><code>count</code></td><td>Count occurrences of value</td></tr>
+            <tr><td><code>index</code></td><td>Return index of first occurrence of value</td></tr>
+            <tr><td><code>insert</code></td><td>Insert element at specified index</td></tr>
+            <tr><td><code>pop</code></td><td>Remove and return element from (end of) list </td></tr>
+            <tr><td><code>remove</code></td><td>remove first occurrence of specified value</td></tr>
+            <tr><td><code>reverse</code></td><td>reverse order of elements in list (in place)</td></tr>
+            <tr><td><code>sort</code></td><td>sort elements in list (in place)</td></tr>
+          </table>
+
+          <p style="margin-top:0.5em; margin-bottom:-0.5em">Examples:</p>
+          <div class="twocols50"><pre><code class="python" data-trim>l = [1,2,3,4,5,6]
+l.append(7)
+l.reverse()
+print(l)
+          </code></pre></div>
+          <div class="twocols50"><pre><code class="python" data-trim data-noescape><div class="label">output</div>
+
+
+[7, 6, 5, 4, 3, 2, 1]
+          </code></pre></div>
+          <!-- <p class="fragment">For more information type <code>help(list)</code> in the console</p> -->
+        </section>
+
+        <section style="font-size:85%">
+          <h3>Creating a list of numbers: the range function</h3>
+          <p>The
+            range function allows you to create a list of numbers running from start to stop-1 with some step size.</p>
+          <pre><code class="python" data-trim>range([start], stop, [step-size])
+          </code></pre>
+          You can then iterate through this list using the for statement:
+          <div class="twocols80"><pre><code class="python" data-trim>for i in range(3):       # range(3) -> [0,1,2]
+    print(i+1)
+          </code></pre></div>
+          <div class="twocols20"><pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>1
+2
+3
+        </code></pre></div>
+          <p class="fragment" style="">Note that start and step-size are optional parameters.</p>
+
+          <span class="fragment">
+          In Python3, <code>range</code> actually doesn't directly produce a list, but you can turn the output of range into a list by using <code>list()</code>:
+
+          <div class="twocols80"><pre><code class="python" data-trim>print(range(4))
+print(list(range(4)))</code></pre></div>
+          <div class="twocols20"><pre><code class="python" data-trim>range(0, 4)
+[0, 1, 2, 3]</code></pre></div>
+        </span>
+        </section>
+
+        <section>
+          <h3>Lists &mdash; exercise</h3>
+          <p>
+          <ol>
+            <li>Create a variable containing the following string:</li>
+            <pre><code class="no-highlight">Horse sense is the thing a horse has which keeps it
+from betting on people. W.C. Fields</code></pre>
+            <li>Convert this string to a list of words.</li>
+            <li>Find the index of the word ”Horse” in the sequence.</li>
+            <li>Sort the list.</li>
+            <li>Print out the first 3 elements of this sorted list.</li>
+            <li>Bonus exercise: Try to reverse the list of words using the slice operation.</li>
+          </ol>
+          </p>
+        </section>
+
+        <section class="solution">
+          <h3>Lists &mdash; exercise &mdash; solution</h3>
+          <p>
+          <ol style="width:100%">
+            <li>Create a variable containing the string:</li>
+            <pre class="fragment"><code class="python" data-trim>quote = '''Horse sense is the thing a horse has which keeps it
+... from betting on people. W.C. Fields'''</code></pre>
+            <li>Convert this string to a list of words.</li>
+            <span class="fragment"><pre class="twocols50"><code class="python" data-trim>word_list = quote.split()
+print(word_list)</code></pre><pre class="twocols50"><code class="python" data-noescape><div class="label">output</div>
+['Horse', 'sense', 'is', 'the', 'thing', 'a', 'horse', 'has', 'which', 'keeps', 'it', 'from', 'betting', 'on', 'people.', 'W.C.', 'Fields']</code></pre></span><div style="clear:both">
+
+            <li>Find the index of the word ”Horse” in the sequence.</li>
+            <span class="fragment"><pre class="twocols50"><code>print(word_list.index("Horse"))</code></pre><pre class="twocols50"><code class="python" data-noescape><div class="label">output</div>0</code></pre></span>
+          </ol>
+          </p>
+        </section>
+
+        <section class="solution">
+          <h3>Lists &mdash; exercise &mdash; solution (2)</h3>
+
+          <p>
+          <ol start="4">
+            <li>Sort the list.</li>
+            <pre class="fragment"><code class="python" data-trim>word_list.sort()
+              </code></pre>
+            <li>Print out the first 3 elements of this sorted list.</li>
+            <span class="fragment"><pre class="twocols50"><code class="python" data-trim>print(word_list[:3])</code></pre><pre class="twocols50"><code class="python" data-noescape><div class="label">output</div>
+['Fields', 'Horse', 'W.C.']</code></pre></span><div style="clear:both;"/>
+            <li>Bonus exercise: Can you come up with a way to use slicing to reverse the order of the word list</li>
+            <pre class="fragment"><code class="python" data-trim>print(word_list[::-1])</code></pre>
+          </ol>
+          </p>
+        </section>
+
+
+        <section style="text-align:center">
+          <h2>Basic looping</h2>
+        </section>
+
+        <section>
+          <h3>The while loop</h3>
+          <p>
+            A while loop repeats a piece of code for as long as its condition is true:</p>
+          <pre><code class="python" data-trim>while condition:
+     code block
+            </pre></code>
+          <div class="twocols70"><pre><code class="python" data-trim data-noescape>i = 1            <span class="fragment" style="position:absolute;" data-fragment-index="1"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="2"># i=1</span></span>
+while (i &lt; 4):   <span class="fragment" style="position:absolute;" data-fragment-index="2"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="3"># i=1    Check condition: True</span></span><span class="fragment" style="position:absolute;" data-fragment-index="5"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="6"># i=2    Check condition: True</span></span><span class="fragment" style="position:absolute;" data-fragment-index="8"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="9"># i=3    Check condition: True</span></span><span class="fragment" style="position:absolute;" data-fragment-index="11"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="12"># i=4    Check condition: False</span></span>
+    print(i)     <span class="fragment" style="position:absolute;" data-fragment-index="3"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="4"># i=1    (note change in output)</span></span><span class="fragment" style="position:absolute;" data-fragment-index="6"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="7"># i=2    (note change in output)</span></span><span class="fragment" style="position:absolute;" data-fragment-index="9"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="10"># i=3    (note change in output)</span></span>
+    i += 1       <span class="fragment" style="position:absolute;" data-fragment-index="4"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="5"># i=2</span></span><span class="fragment" style="position:absolute;" data-fragment-index="7"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="8"># i=3</span></span><span class="fragment" style="position:absolute;" data-fragment-index="10"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="11"># i=4</span></span>
+
+print("hello")    <span class="fragment" style="position:absolute;" data-fragment-index="12"># i=4    (note change in output)</span>
+            </code></pre></div>
+          <div class="twocols30"><pre><code class="no-highlight" data-trim data-noescape><div class="label">output</div><span class="fragment" data-fragment-index="3">1</span>
+<span class="fragment" data-fragment-index="6">2</span>
+<span class="fragment" data-fragment-index="9">3</span>
+<span class="fragment" data-fragment-index="12">hello</span>
+          </code></pre></div>
+
+          <div style="clear:both"></div>
+
+          <p class="fragment">Q: What would happen if we left out the <code>i += 1</code>?</p>
+          <p class="fragment solution">A: It would loop forever. This is called an <em>infinite loop</em></p>
+        </section>
+
+<!--        <section>-->
+<!--          <h3>while loop - exercise</h3>-->
+<!--          <ol>-->
+<!--            <li>Try out the program from the last slide, but leave out the i+=1. What-->
+<!--              happens?</li>-->
+<!--            <li>Modify the program from the last slide to print the numbers in reverse order.</li>-->
+<!--            <li>Optional: Modify the program from the last slide to print out all the numbers between 1 and 10 which are not divisible by three.</li>-->
+<!--            &lt;!&ndash;             <li>Try to execute the following program:</li> &ndash;&gt;-->
+<!--            &lt;!&ndash;           </ol> &ndash;&gt;-->
+<!--            &lt;!&ndash;           <pre><code class="python" data-trim>x = 0.1 &ndash;&gt;-->
+<!--            &lt;!&ndash; while x != 10.0: &ndash;&gt;-->
+<!--            &lt;!&ndash;      print x &ndash;&gt;-->
+<!--            &lt;!&ndash;      x+=0.1 &ndash;&gt;-->
+<!--            &lt;!&ndash;           </pre></code> &ndash;&gt;-->
+<!--            &lt;!&ndash;           <p>Explain what is going on by setting an appropriate breakpoint in Pycharm.</p> &ndash;&gt;-->
+<!--        </section>-->
+
+<!--        <section class="solution">-->
+<!--          <h3>while loop - exercise - solution</h3>-->
+
+<!--          <ol>-->
+<!--            <li>Try out the program from the last slide, but leave out the i+=1. What-->
+<!--              happens?</li>-->
+<!--            <span class="fragment">It never ends. This is called an <i>infinite loop</i>.</span>-->
+<!--            <li>Modify the program from the last slide to print the numbers in reverse order.</li>-->
+<!--            <pre class="fragment"><code class="python" data-trim data-noescape>-->
+<!--i = 3-->
+<!--while (i > 0):-->
+<!--    print(i)-->
+<!--    i -= 1-->
+<!--</code></pre>-->
+<!--          </ol>-->
+<!--        </section>-->
+
+<!--        <section class="solution">-->
+<!--          <h3>while loop - exercise - solution (2)</h3>-->
+
+<!--          <ol start="3">-->
+<!--            <li>Modify the program from the last slide to print out all the numbers between 1 and 10 which are not divisible by three.</li>-->
+<!--            <pre class="fragment"><code class="python" data-trim data-noescape>-->
+<!--i = 0-->
+<!--while (i < 10):-->
+<!--    if i%3 != 0:      # % = modulo operator = remainder in division-->
+<!--        print(i)-->
+<!--    i += 1-->
+<!--            </code></pre>-->
+<!--          </ol>-->
+<!--        </section>-->
+
+        <section>
+          <h3>The for loop</h3>
+          <p>Most of the time when writing a loop, it will be to iterate through a sequential container, like a list or a string. <br>The for command makes this easy:</p>
+          <pre><code class="python" data-trim>for variable in container-object:
+     code block
+          </code></pre>
+          <div class="twocols90"><pre><code class="python" data-trim data-noescape>container = ["a", "b", "c"]
+for val in container:   <span class="fragment" style="position:absolute;" data-fragment-index="1"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="2"># val = "a"</span></span><span class="fragment" style="position:absolute;" data-fragment-index="3"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="4"># val = "b"</span></span><span class="fragment" style="position:absolute;" data-fragment-index="5"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="6"># val = "c"</span></span>
+    print(val)          <span class="fragment" style="position:absolute;" data-fragment-index="2"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="3"># val = "a"  (note change in output)</span></span><span class="fragment" style="position:absolute;" data-fragment-index="4"><span class="fragment fade-out" style="position:absolute;" data-fragment-index="5"># val = "b"  (note change in output)</span></span><span class="fragment" style="position:absolute;" data-fragment-index="6"># val = "c"  (note change in output)</span>
+          </code></pre></div>
+          <div class="twocols10"><pre><code class="no-highlight" data-trim data-noescape><div class="label">output</div>
+<span class="fragment" data-fragment-index="2">a</span>
+<span class="fragment" data-fragment-index="4">b</span>
+<span class="fragment" data-fragment-index="6">c</span>
+          </code></pre></div>
+          <!--           <pre><code class="python" data-trim>container = ["a", "b", "c"] -->
+          <!-- for value in container: -->
+          <!--     print value -->
+
+          <!-- (0, 0, 1) -->
+          <!-- (0, 2, 1) -->
+          <!-- (5, 2, 4) -->
+          <!-- (3, 6, 4) -->
+          <!--           </code></pre> -->
+        </section>
+
+
+        <section>
+          <h3>Interrupting a loop</h3>
+          <p>There are several ways to interrupt a loop from within:</p>
+          <p>
+          <ul>
+            <li><b>break</b>     - stop loop immediately<br></li>
+            <li><b>continue</b>     - immediately start on the next iteration.</li>
+          </ul>
+          </p>
+          <span class="fragment">
+          <div class="twocols80"><pre><code class="python" data-trim>for i in [1,2,3,4]:
+    if i==3:
+        continue  # start on next iteration (skips print)
+    print(i)
+          </code></pre></div>
+          <div class="twocols20"><pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>1
+2
+4
+          </code></pre></div>
+          </span>
+          <div style="clear:both"></div>
+          <p class="fragment">What would happen if I wrote <code>break</code> instead of <code>continue</code>?</p>
+          <p class="fragment"><code>break</code> and <code>continue</code> work for both while and for loops.</p>
+        </section>
+
+        <section>
+          <h3>Nice to know: the pass statement</h3>
+
+          <p>Since Python relies on correct indentation, you have to write <em>something</em> inside an <code>if</code>-statement or loop</p>
+
+          <p class="fragment">Sometimes, you just want to do nothing.</p>
+
+          <span class="fragment">
+          <p>There is a statement that can be used as a placeholder, since it does literally nothing:</p>
+          <pre><code class="python" data-trim>if x < 0:
+     pass    # Haven't decided what to do here yet
+elif x > 0:
+     print("positive")
+          </code></pre>
+          </span>
+        </section>
+
+
+<!--        <section>-->
+<!--          <h3>Nested loops - continued</h3>-->
+<!--          <p>-->
+<!--          <div class="twocols70"><pre><code class="python" data-trim>presidents = [{'name':'Barack Obama', 'age':61},-->
+<!--              {'name':'Bill Clinton', 'age':76}]-->
+<!--for dictionary in presidents:-->
+<!--    for key in dictionary.keys():-->
+<!--        print("%s: %s" % (key, dictionary[key]))-->
+<!--        </code></pre></div>-->
+<!--          <div class="twocols30"><pre><code class="python" data-trim data-noescape><div class="label">output</div>-->
+
+
+
+<!--age: 61-->
+<!--name: Barack Obama-->
+<!--age: 76-->
+<!--name: Bill Clinton-->
+<!--          </code></pre></div>-->
+
+<!--          <p class="fragment">Btw: note (again) that order is not preserved in a dictionary (in python < 3.7)</p>-->
+
+<!--        </section>-->
+
+        <section>
+          <h3>Loops - exercise</h3>
+          <ol>
+            <li>Create the following list: ["hello","how","are","you"].</li>
+            <li>Write a for loop that prints each element in the list.</li>
+            <li>Write a for loop that prints only words starting with the letter "h"</li>
+            <li>Write a while loop that prints each element in the list.</li>
+          </ol>
+        </section>
+
+
+        <section class="solution">
+          <h3>Loops - exercise - solution</h3>
+          <ol>
+            <li>Create the following list: ["hello","how","are","you"].</li>
+            <pre class="fragment"><code class="python" data-trim>word_list = ["hello","how","are","you"]
+          </code></pre>
+            <li>Write a while loop that prints each element in the list.</li>
+            <pre class="fragment"><code class="python" data-trim>i = 0
+while i &lt; len(word_list):
+     print(word_list[i])
+     i += 1
+          </code></pre>
+            <li>Write a for loop that prints each element in the list.</li>
+            <pre class="fragment"><code class="python" data-trim>for entry in word_list:
+     print(entry)
+          </code></pre>
+          </ol>
+        </section>
+
+        <section class="solution">
+          <h3>Loops - exercise - solution (2)</h3>
+          <ol start="4">
+            <li>Write a loop that prints only words starting with the letter "h"</li>
+            <pre style="max-width:none; width:97.5%" class="fragment"><code class="python" data-trim>
+for word in word_list:
+    if word[0] == "h"
+        print(word)
+            </code></pre>
+            <!-- <p class="fragment">Problem: A for-loop would be more elegant, but it doesn't keep track of indices, so we cannot find the neighbour index.</p> -->
+          </ol>
+        </section>
+
+
+
+        <section style="text-align:center">
+          <h2>Files</h2>
+        </section>
+
+        <section>
+          <h3>The file type</h3>
+          <p>The file type is used to represent a file in a program</p>
+
+          <p>You can open a file using the open function:</p>
+
+          <pre><code class="python" data-trim data-noescape>open(<em>filename</em>, <em>mode</em>)
+          </pre></code>
+
+          <p>where mode can be:</p>
+          <pre><code class="python" data-trim>'r'     - read
+'w'     - write
+'r+w'   - read and write
+'a'     - append
+            </pre></code>
+          <p>The open function returns a File object. Remember to save this object to a
+            variable.</p>
+          <pre><code class="python" data-trim>input = open('hello.txt', 'r')
+output = open('outputfile.txt', 'w')
+            </pre></code>
+        </section>
+
+        <section style="font-size:80%">
+          <h3>Files - methods</h3>
+          <p>Commonly used methods:</p>
+
+          <table style="font-size:70%;">
+            <tr><td><code>readline</code></td><td>Read one line as a string</td></tr>
+            <tr><td><code>readlines</code></td><td>Read file as a list of strings</td></tr>
+            <tr><td><code>write</code></td><td>Write string to file</td></tr>
+            <tr><td><code>writelines</code></td><td>Write list to file (as lines)</td></tr>
+            <tr><td><code>close</code></td><td>Close file</td></tr>
+          </table>
+
+          <p style="margin-top:-0.5em">Example:</p>
+          <pre><code class="python" data-trim>input = open('/home/wb/hello.txt', 'r')
+lines = input.readlines()
+first_line = lines[0]
+input.close()
+          </code></pre>
+          The <code>first_line</code> variable is now a string with whatever text was in the first line of the file - <strong>including a new line at the end</strong>, e.g. <br><code>"Hello, world!\n"</code>. <br>Remember, you can remove the newline with the <code>strip()</code> method.
+          <p class="fragment">Btw, what does <code>/home/wb/hello.txt</code> mean?</p>
+        </section>
+
+        <section style="font-size:95%">
+          <h2>Files and Directories</h2>
+          <img style="display:block;margin-left:auto; margin-right:auto;border:0px; width:60%" src="../images/directory_tree.svg">
+          <ul>
+            <li>Files are organized similar to Windows, OSX, ...</li>
+<!--            <li>Hierarchical, tree-like structure.</li>-->
+            <li>The <em>current directory</em> is where you are in the tree right now.</li>
+            <li>The root directory is the directory at the highest level of the file system hierarchy.
+              <ul>Unix/Linux: <code><b>/</b></code></ul>
+              <ul>Windows: Name of drive - e.g. <code>C:\</code></ul>
+            </li>
+          </ul>
+
+        </section>
+
+        <section style="font-size:90%">
+          <h2>Absolute and Relative paths</h2>
+          <img style="width:50%;display:block;margin-left:auto; margin-right:auto;border:0px;"
+               src="../images/directory_tree.svg">
+          Directories (folders) and files can be referred to by using either an <strong>absolute</strong> or a <strong>relative</strong>
+          path:
+
+            <dl>
+              <dt>absolute:</dt>
+              <dd><code>/home/wb/exam_results.html</code> (Unix)</dd>
+              <dd><code>C:\Users\wb\exam_results.html</code> (Windows)</dd>
+              <dt>relative: <span style="font-weight:normal">(assuming I am in <code>/home</code>)</span></dt>
+              <dd><code>wb/exam_results.html </code> (Unix)</dd>
+              <dd><code>wb\exam_results.html</code> (Windows)</dd>
+            </dl>
+        </section>
+
+<!--        <section style="font-size:95%">-->
+<!--          <h3>Files - stdin, stdout & stderr</h3>-->
+<!--          <p>There are three special file objects that are always available and open:</p>-->
+<!--          <ul>-->
+<!--            <li><code>stdin</code>: standard input (normally the keyboard)</li>-->
+<!--            <li><code>stdout</code>: standard output (normally the screen)</li>-->
+<!--            <li><code>stderr</code>: standard error</li>-->
+<!--          </ul>-->
+<!--          <span class="fragment">-->
+<!--            <p>You can write and read from these just as you can with other files.-->
+<!--            They are accessible through the sys module:</p>-->
+<!--            <pre><code class="python" data-trim>import sys-->
+<!--            </pre></code>-->
+<!--            (we'll talk a lot more about importing modules next week)-->
+<!--          </span>-->
+<!--          <p class="fragment">Let's take a look at each of them in turn</p>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--          <h3>Files - stdout</h3>-->
+<!--          <p><code>stdout</code> is used for ordinary output to the screen:</p>-->
+<!--          <pre><code class="python" data-trim>import sys-->
+<!--sys.stdout.write("hello")-->
+<!--          </pre></code>-->
+<!--          <pre><code class="python" data-trim data-noescape><div class="label">output</div>hello-->
+<!--          </pre></code>-->
+<!--          <p>This is basically what print does (without the extra newline at the end).</p>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--          <h3>Files - stderr</h3>-->
+<!--          <p>-->
+<!--            <code>stderr</code> is used to output errors to the screen:-->
+<!--          <pre><code class="python" data-trim data-noescape><div class="label">test.py</div>import sys-->
+<!--sys.stderr.write("hello")-->
+<!--          </pre></code>-->
+<!--          <pre><code class="python" data-trim data-noescape><div class="label">output</div>hello-->
+<!--          </pre></code>-->
+<!--          It behaves as stdout, but still prints to the screen even though stdout is-->
+<!--          redirected:-->
+<!--          <pre><code class="bash" data-trim>$ python test.py &gt; out.txt-->
+<!--hello-->
+<!--            </pre></code>-->
+<!--          </p>-->
+<!--        </section>-->
+
+<!--        <section style="font-size:90%">-->
+<!--          <h3>Files - stdin</h3>-->
+<!--          <p>-->
+<!--            Using <code>stdin</code> you can read a string from the keyboard:-->
+<!--          <pre class="twocols50"><code class="python" data-trim>import sys-->
+<!--input_str = sys.stdin.readline()-->
+<!--print("You typed: " + input_str)-->
+<!--            </pre></code>-->
+<!--          <pre class="twocols50"><code class="python" data-trim data-noescape><div class="label">input/output</div>-->
+<!--hello      # Input-->
+<!--You typed: hello-->
+<!--            </pre></code>-->
+<!--          This can also be achieved using the built-in function <code>input</code>:-->
+<!--          <pre><code class="bash" data-trim>input_str = input("Please specify your shoe size: ")-->
+<!--print("You typed: " + input_str)</code></pre>-->
+<!--          <pre><code class="python" data-trim data-noescape><div class="label">input/output</div>Please specify your shoe size: 44  # Input-->
+<!--You typed: 44-->
+<!--            </pre></code>-->
+<!--          <code>stdin</code> is also used if you want your Python program to work as part of a-->
+<!--          Unix pipeline (we'll get back to this later).-->
+<!--          </p>-->
+<!--        </section>-->
+
+        <section>
+          <h3>Types - Files are streams</h3>
+
+          <p>Important: you can only read a file once.</p>
+
+          <p>The file is a stream, you <em>consume</em> the stream when you read it</p>
+
+          <pre><code class="python" data-trim data-noescape>input_file = open('hello.txt', 'r')
+file_as_str = input_file.read()
+file_as_str = input_file.read()           # file_as_str will now be empty
+          </code></pre>
+
+          <p class="fragment">There are ways to reset a file stream, so you can read it again...</p>
+
+          <p class="fragment">...but the simplest (and most efficient) is to just read once, and save the information that you need into a variable.</p>
+
+        </section>
+
+
+        <section style="font-size:85%">
+          <h3>Files &mdash; exercise</h3>
+
+          <p>We will now process a data set of sidechain S2 order parameters for UBQ (from: <a href="https://pubmed.ncbi.nlm.nih.gov/15650731/">https://pubmed.ncbi.nlm.nih.gov/15650731/</a>)</p>
+
+          <ol>
+            <li>Download the following file to your current directory: <a href="https://wouterboomsma.github.io/isb2024/data/amide.s2_exp">https://wouterboomsma.github.io/isb2024/data/amide.s2_exp</a>. <br>Hint: You can either download the file to your own computer, and then upload it to your notebook OR, you can simply write <pre><code class="python">!wget https://wouterboomsma.github.io/isb2024/data/amide.s2_exp</code></pre> in a cell in your notebook.</li>
+            <li>Now, create a new notebook called <code>file_test.ipynb</code>. In this notebook, use the <code>open</code> function to open the <code>amide.s2_exp</code> file. </li>
+            <li>Read its content into a list of strings</li>
+            <li>Print the last two lines to screen</li>
+          </ol>
+        </section>
+
+        <section class="solution">
+          <h3>Files &mdash; exercise &mdash;  solution</h3>
+          <ol>
+            <li>Create a new program called <code>file_test.py</code>. In this program, use the <code>open</code> function to open the <code>amide.s2_exp</code> file. </li>
+            <pre class="fragment"><code class="python" data-trim data-noescape><div class="label">file_test.ipynb</div>my_file = open("amide.s2_exp")
+            </code></pre>
+            <li>Read its content into a list of strings</li>
+            <pre class="fragment"><code class="python" data-trim data-noescape><div class="label">file_test.ipynb</div>lines = my_file.readlines()</code></pre>
+            <li>Print the last two lines to screen</li>
+            <pre class="fragment"><code class="python" data-trim data-noescape><div class="label">file_test.ipynb</div>print(lines[-2:])</code></pre>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Files &mdash; opening with <code>with</code></h3>
+
+          <p>Often, people forget to <code>.close()</code> files when they are done reading them.</p>
+
+          <p>Python therefore has a different way to open files - which ensures that they are always properly closed:</p>
+
+          <pre><code class="python">with open("amide.s2_exp") as input_file:
+    # inside the with clause, the file is open
+    lines = input_file.readlines()
+
+# as soon as the with clause is over, the file is automatically closed.
+print(lines)</code></pre>
+
+        </section>
+
+        <section style="text-align:center">
+          <h2>A bit more on loops...</h2>
+          <h3>(optional)</h3>
+        </section>
+
+        <section>
+          <h3>Recall: while loops and for loops</h3>
+
+          <div style="float:left; width:50%">
+            While loop
+            <pre><code class="python" data-trim data-noescape>i = 0
+while i < 4:
+    print(i)
+    i += 1
+          </code></pre>
+          </div>
+          <div style="float:left; width:50%">
+            For loop:
+            <pre><code class="python" data-trim data-noescape>
+for i in [0,1,2,3]
+    print(i)
+          </code></pre>
+          </div>
+
+          <div style="clear:both"></div>
+
+          <p class="fragment">For-loops are generally more convenient: We don't have to create a counting variable, and we don't run the risk of creating an infinite loops.</p>
+
+          <p class="fragment">But how do we use for loops to iterate over a range of numbers? Writing "[0,1,2,3]" is not a scalable solution.</p>
+        </section>
+
+
+        <section style="font-size:85%">
+          <h3>The for loop - with indices</h3>
+
+          If we need to know the index, we can iterate over indices instead:
+
+          <div style="clear:both; margin-bottom:0.5em"></div>
+          <div style="float:left; width:50%">
+            Original
+            <pre><code class="python" data-trim data-noescape>container = ["a", "b", "c"]
+for val in container:
+    # I don't know the index
+    print("Value at index ? is: ", val)
+          </code></pre>
+          </div>
+          <div style="float:left; width:50%">
+            Iterating over indices
+            <pre><code class="python" data-trim data-noescape>container = ["a", "b", "c"]
+for i in range(len(container)):
+    val = container[i]
+    # Now I know the current index i
+    # I can get the value by looking it up
+    print("Value at index", i, "is:", val)
+          </code></pre>
+          </div>
+
+          <span class="fragment">
+          There is a built-in function <code>enumerate</code>, that make this easier:
+
+          <pre><code class="python" data-trim data-noescape>container = ["a", "b", "c"]
+for i,val in enumerate(container):         # Note the i,val tuple after for
+    # Now I know the current index i AND I have access to the value directly
+    print("Value at index", i, "is:", val)
+          </code></pre>
+          </span>
+
+          <!--          <span class="fragment">-->
+          <!--          How does this work? Enumerate creates a list of 2-tuples-->
+
+          <!--          <div style="float:left; width:50%">-->
+          <!--          <pre><code class="python" data-trim data-noescape>-->
+          <!--            print(list(enumerate(container)))-->
+          <!--          </code></pre>-->
+          <!--          </div>-->
+          <!--          <div style="float:left; width:50%">-->
+          <!--            <pre><code class="nohighlight" data-trim data-noescape><div class="label">output</div>[(0, 'a'), (1, 'b'), (2, 'c')]</code></pre>-->
+          <!--          </div>-->
+          <!--          </span>-->
+
+        </section>
+
+        <section>
+          <h3>Loops - else statement</h3>
+          <p>Loops can have an else clause, which will execute if the loop finishes normally (without a break statement).</p>
+          <pre><code class="python" data-trim>&gt;&gt;&gt; l = range(1, 10)
+&gt;&gt;&gt; for i in l:
+...     if i == 12:
+...         break
+... else:
+...     print(" Element not found ")
+...
+Element not found
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Nested loops</h3>
+          <p>Nested data structures often require nested loops:</p>
+          <div class="twocols90"><pre><code class="python" data-trim>c = [[1,2,3], [4,5,6], [7,8,9]]
+for inner_list in c:                 # Iterate over outer list
+    print("Starting on new list:", inner_list)
+    for entry in inner_list:         # Iterate over inner list
+        print(entry)
+          </code></pre></div>
+          <div class="twocols10"><pre><code class="python" data-trim data-noescape><div class="label">output</div>Starting on new list: [1, 2, 3]
+1
+2
+3
+Starting on new list: [4, 5, 6]
+4
+5
+6
+Starting on new list: [7, 8, 9]
+7
+8
+9
+          </code></pre></div>
+        </section>
+
+        <section>
+          <h3>Loops - exercise</h3>
+          <ol>
+            <li>Create the following list: [6,9,4,8,7,1,2].</li>
+            <li>Write a while loop that prints each element in the list.</li>
+            <li>Write a for loop that prints each element in the list.</li>
+            <li>Write a loop that prints all elements that are larger than their left
+              neighbour (for the above example: 9, 8, 2). Which type of loop is best
+              suited for this purpose?</li>
+          </ol>
+        </section>
+
+
+        <section class="solution">
+          <h3>Loops - exercise - solution</h3>
+          <ol>
+            <li>Create the following list: [6,9,4,8,7,1,2].</li>
+            <pre class="fragment"><code class="python" data-trim>number_list = [6,9,4,8,7,1,2]
+          </code></pre>
+            <li>Write a while loop that prints each element in the list.</li>
+            <pre class="fragment"><code class="python" data-trim>i = 0
+while i &lt; len(number_list):
+     print(number_list[i])
+     i += 1
+          </code></pre>
+            <li>Write a for loop that prints each element in the list.</li>
+            <pre class="fragment"><code class="python" data-trim>for entry in number_list:
+     print(entry)
+          </code></pre>
+          </ol>
+        </section>
+
+        <section class="solution">
+          <h3>Loops - exercise - solution (2)</h3>
+          <ol start="4">
+            <li>Write a loop that prints all elements that are larger than their left
+              neighbour (for the above example: 9, 8, 2). Which type of loop is best
+              suited for this purpose?</li>
+            <pre style="max-width:none; width:97.5%" class="fragment"><code class="python" data-trim>
+for i in range(1, len(number_list)):        # i starts at one
+    if number_list[i] &gt; number_list[i-1]:   # compare to left-neighbor
+        print(number_list[i])
+            </code></pre>
+            <!-- <p class="fragment">Problem: A for-loop would be more elegant, but it doesn't keep track of indices, so we cannot find the neighbour index.</p> -->
+            <span class="fragment">
+            <p>Alternatively, there is a way of automatically getting both value and index:</p>
+            <pre style="max-width:none; width:100%"><code class="python" data-trim>for i,entry in enumerate(number_list): # enumerate returns (i,value) pairs
+    if i &gt; 0 and entry &gt; number_list[i-1]:
+        print(entry)
+          </code></pre></span>
+          </ol>
+          <span class="fragment">Moral of the story: even when you need indices, its still easier to use <code>for</code> than <code>while</code>.</span>
+        </section>
+
+
+      </div>
+    </div>
+
+    <script src="../hide_before_week_day_time.js"></script>
+    <script>
+       var hideSolutions = false;
+       if(hideSolutions)
+          hideBeforeWeekDayTime(document, 6, 'thu', 12)
+    </script>
+
+    <script src="../reveal.js-4.3.1/dist/reveal.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/zoom/zoom.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/notes/notes.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/search/search.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js-4.3.1/plugin/math/math.js"></script>
+
+    <script>
+
+       // Full list of configuration options available here:
+       // https://github.com/hakimel/reveal.js#configuration
+       Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+          transitionSpeed: 'fast',
+          touch: true,
+          keyboard: true,
+
+          slideNumber: true,
+
+          minScale: 0.1,
+          maxScale: 5.0,
+
+          transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+          plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath ]
+       });
+
+    </script>
+
+  </body>
+</html>
